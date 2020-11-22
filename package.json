@@ -1,0 +1,73 @@
+{
+    "name": "christmas-list-organiser",
+    "version": "0.0.0",
+    "author": "Tom Hewitt",
+    "scripts": {
+        "build": "react-scripts build",
+        "deploy": "gh-pages -d build",
+        "heroku-postbuild": "npm run build",
+        "lint": "eslint --ignore-path .gitignore . && npm run lint-sass",
+        "lint-fix": "eslint --ignore-path .gitignore . --fix",
+        "lint-sass": "sass-lint src/**/*.scss --verbose --no-exit",
+        "mock-mode": "json-server --port 3001 --watch ./src/mocks/mocks.json",
+        "predeploy": "yarn run build",
+        "release": "github-releaser",
+        "start": "react-scripts start",
+        "test": "jest",
+        "test-coverage": "jest --coverage"
+    },
+    "engines": {
+        "node": "12.14.1"
+    },
+    "dependencies": {
+        "bootstrap": "^4.5.0",
+        "github-releaser": "^1.4.0",
+        "node-sass": "^4.14.1",
+        "prop-types": "^15.7.2",
+        "react": "^16.13.1",
+        "react-bootstrap": "^1.0.0",
+        "react-dom": "^16.13.1",
+        "react-router-dom": "^5.1.2",
+        "react-scripts": "^3.4.1",
+        "sass-lint": "^1.13.1",
+        "serve": "^11.3.2"
+    },
+    "devDependencies": {
+        "@commitlint/cli": "^11.0.0",
+        "@commitlint/config-conventional": "^11.0.0",
+        "cz-conventional-changelog": "^2.1.0",
+        "eslint": "^6.8.0",
+        "eslint-config-airbnb": "^18.2.0",
+        "eslint-plugin-import": "^2.22.0",
+        "eslint-plugin-jsx-a11y": "^6.3.1",
+        "eslint-plugin-react": "^7.20.6",
+        "eslint-plugin-react-hooks": "^1.7.0",
+        "husky": "^1.1.2",
+        "validate-commit-msg": "^2.14.0"
+    },
+    "husky": {
+        "hooks": {
+            "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+        }
+    },
+    "config": {
+        "commitizen": {
+            "path": "./node_modules/cz-conventional-changelog"
+        }
+    },
+    "repository": {
+        "apiUrl": "https://api.github.com/repos/iamtomhewitt/christmas-list-organiser"
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    }
+}
