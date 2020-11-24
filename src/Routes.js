@@ -1,11 +1,13 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
+import Home from './components/Home';
+import Login from './components/Login/Login';
 
-export default () => (
-  <Switch>
-    <Route path="/" exact component={<div>Hey boy</div>} />
-
-    { /* Catch all unmatched routes */}
-    <Route component={<div>Not Found</div>} />
-  </Switch>
-);
+export default () => {
+  return (
+    <Switch>
+      <Route path="/" exact render={() => <Login />} />
+      <Route path="/home" exact render={() => <Home />} />
+    </Switch>
+  );
+}
