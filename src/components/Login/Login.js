@@ -1,12 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { saveUserData } from '../../util/localStorage';
 
 export default class Login extends React.Component {
   constructor() {
     super();
     this.state = {
-      email: 'test@test.com',
-      password: 'password',
+      email: '',
+      password: '',
       errorMessage: '',
     };
 
@@ -28,7 +29,7 @@ export default class Login extends React.Component {
         if (data.error) {
           this.setState({ errorMessage: data.message });
         } else {
-          console.log('all good');
+          saveUserData(data);
         }
       });
   }
@@ -39,7 +40,6 @@ export default class Login extends React.Component {
     return (
       <div>
         <h1>Login</h1>
-        {/* <button onClick={() => window.location = '#/home'}>Go to home</button> */}
         <input value={email} onChange={this.handleChange} id="email" />
         <p />
         <input value={password} onChange={this.handleChange} id="password" type="password" />
@@ -51,7 +51,7 @@ export default class Login extends React.Component {
         </Link>
 
         {errorMessage
-        && <div>{errorMessage}</div>}
+          && <div>{errorMessage}</div>}
       </div>
     );
   }

@@ -1,15 +1,16 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 export default class Register extends React.Component {
   constructor() {
     super();
     this.state = {
-      email: 'q',
-      password: 'q',
-      firstName: 'q',
-      lastName: 'q',
+      email: '',
+      password: '',
+      firstName: '',
+      lastName: '',
       errorMessage: '',
-      statusMessage: '',
+      hasRegistered: false,
     };
 
     this.register.bind(this);
@@ -37,7 +38,6 @@ export default class Register extends React.Component {
       }),
     })
       .then((response) => {
-        console.log(response);
         if (!response.ok) {
           return response.json();
         }
@@ -46,12 +46,11 @@ export default class Register extends React.Component {
         if (data) {
           this.setState({
             errorMessage: data.message,
-            statusMessage: '',
           });
         } else {
           this.setState({
             errorMessage: '',
-            statusMessage: 'Registered!',
+            hasRegistered: true,
           });
         }
       });
@@ -59,7 +58,7 @@ export default class Register extends React.Component {
 
   render() {
     const {
-      email, password, firstName, lastName, errorMessage, statusMessage,
+      email, password, firstName, lastName, errorMessage, hasRegistered,
     } = this.state;
 
     return (
@@ -81,10 +80,18 @@ export default class Register extends React.Component {
         <p />
 
         {errorMessage
-        && <div>{errorMessage}</div>}
+          && <div>{errorMessage}</div>}
 
-        {statusMessage
-        && <div>{statusMessage}</div>}
+        {hasRegistered
+          && (
+            <div>
+              Registered!
+              <p />
+              <Link to="/">
+                Return to login!
+              </Link>
+            </div>
+          )}
       </div>
     );
   }
