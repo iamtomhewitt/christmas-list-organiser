@@ -6,7 +6,7 @@ import Register from './components/Register/Register';
 
 export default () => (
   <Switch>
-    <Route path="/" exact render={() => <Login />} />
+    <Route path="/" exact component={Login} />
     <Route path="/register" exact render={() => <Register />} />
     <Route path="/home" exact render={() => <Home />} />
   </Switch>

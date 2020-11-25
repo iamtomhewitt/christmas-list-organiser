@@ -30,6 +30,7 @@ export default class Login extends React.Component {
           this.setState({ errorMessage: data.message });
         } else {
           saveUserData(data);
+          this.props.history.push('/home');
         }
       });
   }
@@ -44,7 +45,7 @@ export default class Login extends React.Component {
         <p />
         <input value={password} onChange={this.handleChange} id="password" type="password" />
         <p />
-        <button onClick={this.login}>login</button>
+        <button onClick={this.login}>Login</button>
         <p />
         <Link to="/register">
           <div>Register</div>
