@@ -4,7 +4,9 @@ export default class Login extends React.Component {
   constructor() {
     super();
     this.state = {
-      email: 'test@test.com'
+      email: 'test@test.com',
+      password: 'password',
+      errorMessage: ''
     }
 
     this.login.bind(this);
@@ -17,25 +19,36 @@ export default class Login extends React.Component {
   }
 
   login = () => {
-    const { email } = this.state;
+    const { email, password } = this.state;
 
-    fetch(`http://localhost:8080/account?email=${'asd'}`)
+    fetch(`http://localhost:8080/account/validate?email=${email}&password=${password}`)
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
-        const { firstName, lastName } = data;
-        console.log(firstName, lastName)
+        console.log(data)
+        if (data.error) {
+          this.setState({ errorMessage: data.message });
+        }
+        else {
+          console.log('all good')
+        }
       })
   }
 
   render() {
-    const { email } = this.state;
+    const { email, password, errorMessage } = this.state;
 
     return <div>
       <h1>Login</h1>
       {/* <button onClick={() => window.location = '#/home'}>Go to home</button> */}
       <input value={email} onChange={this.handleChange} id='email' />
+      <p></p>
+      <input value={password} onChange={this.handleChange} id='password' type="password" />
+      <p></p>
       <button onClick={this.login}>login</button>
+
+      {errorMessage &&
+        <div>{errorMessage}</div>
+      }
     </div>
   }
 }
