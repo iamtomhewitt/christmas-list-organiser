@@ -1,15 +1,23 @@
 import React from 'react';
-import { getUserData } from '../util/localStorage';
-import LogoutButton from './Buttons/Logout';
+import { Link } from 'react-router-dom';
+import { clearUserData } from '../util/localStorage';
+import ChristmasList from './ChristmasList/ChristmasList';
 
-const Home = () => (
-  <>
-    <div>Home</div>
-    <LogoutButton />
-    <div>
-      {JSON.stringify(getUserData())}
-    </div>
-  </>
-);
+const LogoutButton = () => <Link to="/"><button onClick={() => clearUserData()}>Logout</button></Link>;
+
+class Home extends React.Component {
+  render() {
+    return (
+      <>
+        <div className="masthead">
+          <h1>Home</h1>
+          <LogoutButton />
+        </div>
+
+        <ChristmasList />
+      </>
+    );
+  }
+}
 
 export default Home;
