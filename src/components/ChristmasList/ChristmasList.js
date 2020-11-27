@@ -103,7 +103,7 @@ class ChristmasList extends React.Component {
     const { email } = getUserData();
     this.setState({ email });
 
-    fetch('http://localhost:8080/christmas-list?email=tommhewitt@gmail.com')
+    fetch(`http://localhost:8080/christmas-list?email=${email}`)
       .then((response) => response.json())
       .then((data) => this.setState({ items: data.items }));
   }
