@@ -10,7 +10,6 @@ class Home extends React.Component {
     return (
       <>
         <div className="masthead">
-          <h1>Home</h1>
           <LogoutButton />
         </div>
 
