@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { validateAccount } from '../../api/account';
 import { saveUserData } from '../../util/localStorage';
 
 export default class Login extends React.Component {
@@ -23,7 +24,7 @@ export default class Login extends React.Component {
   login = () => {
     const { email, password } = this.state;
 
-    fetch(`http://localhost:8080/account/validate?email=${email}&password=${password}`)
+    validateAccount(email, password)
       .then((response) => response.json())
       .then((data) => {
         if (data.error) {
