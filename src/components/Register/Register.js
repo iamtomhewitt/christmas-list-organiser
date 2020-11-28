@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { createAccount } from '../../api/account';
 
 export default class Register extends React.Component {
   constructor() {
@@ -27,16 +28,7 @@ export default class Register extends React.Component {
       email, password, firstName, lastName,
     } = this.state;
 
-    fetch('http://localhost:8080/account', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        email,
-        password,
-        firstName,
-        lastName,
-      }),
-    })
+    createAccount(email, password, firstName, lastName)
       .then((response) => {
         if (!response.ok) {
           return response.json();
@@ -63,7 +55,12 @@ export default class Register extends React.Component {
 
     return (
       <div>
+
         <h1>Register</h1>
+
+        <div style={{ fontWeight: 'bold' }}>
+          WARNING! There's no security on this, so choose a password that you don't use for other things.
+        </div>
         <label>Email</label>
         <input value={email} onChange={this.handleChange} id="email" />
         <p />
