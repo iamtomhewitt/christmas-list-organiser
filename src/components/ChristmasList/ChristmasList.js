@@ -52,7 +52,6 @@ class ChristmasList extends React.Component {
     this.makePostRequest([newItem])
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         this.setState({ items: data.items });
       });
   }
@@ -66,42 +65,71 @@ class ChristmasList extends React.Component {
 
   renderItem = (item, i) => {
     const { name, dibbedBy, dibbed } = item;
-    return (
-      <li key={i}>
+    const { listIsForLoggedInUser } = this.state;
+
+    const itemForLoggedInUser = (
+      <div>
         <button onClick={() => this.remove(item)}>Remove</button>
         {name}
-        {' '}
-        |
-        {dibbed ? `Dibbed by ${dibbedBy}` : 'Available!'}
+      </div>
+    );
+
+    const itemForNotLoggedInUser = (
+      <div>
+        {name} | {dibbed ? `Dibbed by ${dibbedBy}` : 'Available!'}
+      </div>
+    );
+
+    return (
+      <li key={i}>
+        {listIsForLoggedInUser ? itemForLoggedInUser : itemForNotLoggedInUser}
       </li>
     );
   }
 
   renderList = (items) => {
-    const { newItemName } = this.state;
+    const { newItemName, listIsForLoggedInUser } = this.state;
+
     return (
       <>
         <ul>
           {items.map((item, i) => this.renderItem(item, i))}
         </ul>
-        <input value={newItemName} onChange={this.handleChange} id="newItemName" />
-        <button onClick={() => this.add()}>Add New Item</button>
+        {listIsForLoggedInUser && (
+          <>
+            <input value={newItemName} onChange={this.handleChange} id="newItemName" />
+            <button onClick={() => this.add()}>Add New Item</button>
+          </>
+        )}
       </>
     );
   }
 
-  renderEmptyList = () => (
-    <>
-      <div>You don't have a Christmas list!</div>
-      <div>
-        <button onClick={() => this.createList()}>Create List</button>
-      </div>
-    </>
-  )
+  renderEmptyList = () => {
+    const { listIsForLoggedInUser } = this.state;
+
+    return (
+      listIsForLoggedInUser
+        ? (
+          <>
+            <div>You don't have a Christmas list!</div>
+            <div>
+              <button onClick={() => this.createList()}>Create List</button>
+            </div>
+          </>
+        )
+        : (
+          <>
+            <div>This person does not have a Christmas list yet!</div>
+          </>
+        )
+    );
+  }
 
   componentDidMount() {
-    const { email } = getUserData();
-    this.setState({ email });
+    const { email } = this.props.location || getUserData();
+    const listIsForLoggedInUser = email === getUserData().email;
+    this.setState({ email, listIsForLoggedInUser });
 
     fetch(`http://localhost:8080/christmas-list?email=${email}`)
       .then((response) => response.json())
@@ -109,10 +137,11 @@ class ChristmasList extends React.Component {
   }
 
   render() {
-    const { items } = this.state;
+    const { items, email, listIsForLoggedInUser } = this.state;
+    const title = listIsForLoggedInUser ? `Your Christmas List (${email})` : `Christmas List for ${email}`;
     return (
       <div>
-        <h3>Your Christmas List</h3>
+        <h3>{title}</h3>
         {items ? this.renderList(items) : this.renderEmptyList()}
       </div>
     );
