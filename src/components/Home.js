@@ -3,22 +3,20 @@ import { Link } from 'react-router-dom';
 import { getUserData } from '../util/localStorage';
 import ChristmasList from './ChristmasList/ChristmasList';
 
-class Home extends React.Component {
-  render() {
-    const { email } = this.props.location || getUserData();
+export const Home = (props) => {
+  const { email } = props.location || getUserData();
 
-    return (
-      <>
-        <ChristmasList email={email} />
+  return (
+    <>
+      <ChristmasList email={email} />
 
-        <p />
+      <p />
 
-        <Link to="/search">
-          <button>Search for someone's list</button>
-        </Link>
-      </>
-    );
-  }
-}
+      <Link to="/search">
+        <button>Search for someone's list</button>
+      </Link>
+    </>
+  );
+};
 
 export default Home;
