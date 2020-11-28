@@ -21,3 +21,4 @@ export const createChristmasList = (email) => fetch('http://localhost:8080/chris
 });
 
 export const getChristmasList = (email) => fetch(`http://localhost:8080/christmas-list?email=${email}`);
+export const getAllChristmasLists = () => fetch('http://localhost:8080/christmas-list/all');

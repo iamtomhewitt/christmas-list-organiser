@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { getAllChristmasLists } from '../../api/christmasList';
 import { getUserData } from '../../util/localStorage';
 
 class SearchPage extends React.Component {
@@ -15,7 +16,7 @@ class SearchPage extends React.Component {
   }
 
   componentDidMount() {
-    fetch('http://localhost:8080/christmas-list/all')
+    getAllChristmasLists()
       .then((response) => response.json())
       .then((data) => {
         const filteredLists = data.filter((list) => list.belongsTo !== this.state.usersEmail);
