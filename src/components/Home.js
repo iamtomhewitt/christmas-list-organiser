@@ -14,6 +14,12 @@ class Home extends React.Component {
         </div>
 
         <ChristmasList />
+
+        <p></p>
+
+        <Link to='/search'>
+          <button>Search for someone's list</button>
+        </Link>
       </>
     );
   }
