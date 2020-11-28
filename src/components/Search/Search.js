@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-class Search extends React.Component {
+class SearchPage extends React.Component {
 
   constructor() {
     super();
@@ -42,9 +42,10 @@ class Search extends React.Component {
             <p>{list.belongsTo}</p>
           </Link>
         })}
+        {filteredLists.length === 0 && <div>No lists found!</div>}
       </>
     );
   }
 }
 
-export default Search;
+export default SearchPage;
