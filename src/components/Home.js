@@ -1,9 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { clearUserData, getUserData } from '../util/localStorage';
+import { getUserData } from '../util/localStorage';
 import ChristmasList from './ChristmasList/ChristmasList';
-
-const LogoutButton = () => <Link to="/"><button onClick={() => clearUserData()}>Logout</button></Link>;
 
 class Home extends React.Component {
   render() {
@@ -11,10 +9,6 @@ class Home extends React.Component {
 
     return (
       <>
-        <div className="masthead">
-          <LogoutButton />
-        </div>
-
         <ChristmasList email={email} />
 
         <p />
