@@ -1,5 +1,7 @@
 import React from 'react';
-import { createChristmasList, getChristmasList, saveChristmasList } from '../../api/christmasList';
+import {
+  createChristmasList, dibChristmasListItem, getChristmasList, saveChristmasList,
+} from '../../api/christmasList';
 import { getUserData } from '../../util/localStorage';
 
 class ChristmasList extends React.Component {
@@ -48,6 +50,11 @@ class ChristmasList extends React.Component {
     });
   }
 
+  dibItem = (itemName) => {
+    dibChristmasListItem(this.state.email, itemName, getUserData().email)
+      .then((data) => this.setState({ items: data.items }));
+  }
+
   renderItem = (item, i) => {
     const { name, dibbedBy, dibbed } = item;
     const { listIsForLoggedInUser } = this.state;
@@ -61,7 +68,7 @@ class ChristmasList extends React.Component {
 
     const itemForNotLoggedInUser = (
       <div>
-        {name} | {dibbed ? `Dibbed by ${dibbedBy}` : 'Available!'}
+        <div>{name} {dibbed ? `Dibbed by ${dibbedBy}` : <button onClick={() => this.dibItem(name)}>Dib this item</button>}</div>
       </div>
     );
 
