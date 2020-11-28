@@ -1,26 +1,32 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { getUserData } from '../../util/localStorage';
 
 class SearchPage extends React.Component {
   constructor() {
     super();
+    const { email } = getUserData();
     this.state = {
       lists: [],
       filteredLists: [],
       searchCriteria: '',
+      usersEmail: email,
     };
   }
 
   componentDidMount() {
     fetch('http://localhost:8080/christmas-list/all')
       .then((response) => response.json())
-      .then((data) => this.setState({ lists: data, filteredLists: data }));
+      .then((data) => {
+        const filteredLists = data.filter((list) => list.belongsTo !== this.state.usersEmail);
+        this.setState({ lists: data, filteredLists });
+      });
   }
 
   onChange = (event) => {
     const { id, value } = event.target;
-    const { lists } = this.state;
-    const filteredLists = lists.filter((list) => list.belongsTo.includes(value));
+    const { lists, usersEmail } = this.state;
+    const filteredLists = lists.filter((list) => list.belongsTo.includes(value) && list.belongsTo !== usersEmail);
 
     this.setState({
       [id]: value,
