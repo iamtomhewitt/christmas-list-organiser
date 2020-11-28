@@ -1,4 +1,5 @@
 import React from 'react';
+import { createChristmasList, getChristmasList, saveChristmasList } from '../../api/christmasList';
 import { getUserData } from '../../util/localStorage';
 
 class ChristmasList extends React.Component {
@@ -11,20 +12,11 @@ class ChristmasList extends React.Component {
     };
   }
 
-  makePostRequest = (items) => fetch('http://localhost:8080/christmas-list', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      belongsTo: this.state.email,
-      items,
-    }),
-  })
-
   remove = (item) => {
-    const { items } = this.state;
+    const { items, email } = this.state;
     const listWithoutItem = items.filter((i) => i !== item);
 
-    this.makePostRequest(listWithoutItem)
+    saveChristmasList(email, listWithoutItem)
       .then((response) => response.json())
       .then((data) => {
         this.setState({ items: data.items });
@@ -32,10 +24,10 @@ class ChristmasList extends React.Component {
   }
 
   add = () => {
-    const { items, newItemName } = this.state;
+    const { items, newItemName, email } = this.state;
     items.push({ name: newItemName.trim(), dibbedBy: ' ', dibbed: false });
 
-    this.makePostRequest(items)
+    saveChristmasList(email, items)
       .then((response) => response.json())
       .then((data) => {
         this.setState({ items: data.items, newItemName: ' ' });
@@ -43,19 +35,12 @@ class ChristmasList extends React.Component {
   }
 
   createList = () => {
-    const newItem = {
-      name: 'New Item',
-      dibbyBy: 'No one',
-      dibbed: false,
-    };
-
-    this.makePostRequest([newItem])
+    createChristmasList(this.state.email)
       .then((response) => response.json())
       .then((data) => {
         this.setState({ items: data.items });
       });
   }
-  // TODO move the above methods to an api file
 
   handleChange = (event) => {
     this.setState({
@@ -131,7 +116,7 @@ class ChristmasList extends React.Component {
     const listIsForLoggedInUser = email === getUserData().email;
     this.setState({ email, listIsForLoggedInUser });
 
-    fetch(`http://localhost:8080/christmas-list?email=${email}`)
+    getChristmasList(email)
       .then((response) => response.json())
       .then((data) => this.setState({ items: data.items }));
   }
