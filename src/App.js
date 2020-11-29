@@ -1,39 +1,35 @@
-import React from 'react';
-import Routes from './Routes';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import React, { useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import Routes from './Routes';
 import { clearUserData, getUserData } from './util/localStorage';
-import { Link, withRouter } from 'react-router-dom';
 
-const LogoutButton = () => <Link to="/"><button onClick={() => clearUserData()}>Logout</button></Link>;
+const LogoutButton = () => (
+  <Link to="/">
+    <button onClick={() => clearUserData()}>Logout</button>
+  </Link>
+);
 
-class App extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      userData: null,
-    };
-  }
+const HomeButton = () => (
+  <Link to="/home">
+    <button>Home</button>
+  </Link>
+);
 
-  componentWillMount() {
-    this.unlisten = this.props.history.listen((location, action) => {
-      const data = getUserData();
-      this.setState({ userData: data });
-    });
-  }
+const App = () => {
+  const location = useLocation();
+  const [userData, setUserData] = useState({});
 
-  componentWillUnmount() {
-    this.unlisten();
-  }
+  useEffect(() => {
+    setUserData(getUserData());
+  }, [location]);
 
-  render() {
-    const { userData } = this.state;
-    return (
-      <>
-        {userData && <LogoutButton />}
-        <Routes />
-      </>
-    );
-  }
-}
+  return (
+    <>
+      {userData && <><LogoutButton /><HomeButton /></>}
+      <Routes />
+    </>
+  );
+};
 
-export default withRouter(App);
+export default App;
