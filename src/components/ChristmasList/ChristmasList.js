@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import {
   createChristmasList, dibChristmasListItem, getChristmasList, saveChristmasList,
 } from '../../api/christmasList';
@@ -27,7 +28,7 @@ class ChristmasList extends React.Component {
 
   add = () => {
     const { items, newItemName, email } = this.state;
-    items.push({ name: newItemName.trim(), dibbedBy: ' ', dibbed: false });
+    items.push({ name: newItemName.trim(), dibbed: false });
 
     saveChristmasList(email, items)
       .then((response) => response.json())
@@ -51,12 +52,15 @@ class ChristmasList extends React.Component {
   }
 
   dibItem = (itemName) => {
-    dibChristmasListItem(this.state.email, itemName, getUserData().email)
+    const christmasListOwner = this.state.email;
+    const dibbedBy = getUserData().email;
+    dibChristmasListItem(itemName, christmasListOwner, dibbedBy)
       .then((data) => this.setState({ items: data.items }));
   }
 
   renderItem = (item, i) => {
     const { name, dibbedBy, dibbed } = item;
+    const { firstName = '', lastName = '' } = dibbedBy || {};
     const { listIsForLoggedInUser } = this.state;
 
     const itemForLoggedInUser = (
@@ -68,7 +72,7 @@ class ChristmasList extends React.Component {
 
     const itemForNotLoggedInUser = (
       <div>
-        <div>{name} {dibbed ? `Dibbed by ${dibbedBy}` : <button onClick={() => this.dibItem(name)}>Dib this item</button>}</div>
+        <div>{name} {dibbed ? `Dibbed by ${firstName} ${lastName}` : <button onClick={() => this.dibItem(name)}>Dib this item</button>}</div>
       </div>
     );
 
@@ -90,7 +94,7 @@ class ChristmasList extends React.Component {
         {listIsForLoggedInUser && (
           <>
             <input value={newItemName} onChange={this.handleChange} id="newItemName" />
-            <button onClick={() => this.add()}>Add New Item</button>
+            <button onClick={() => this.add()} disabled={newItemName === ''}>Add New Item</button>
           </>
         )}
       </>
@@ -131,11 +135,18 @@ class ChristmasList extends React.Component {
   render() {
     const { items, email, listIsForLoggedInUser } = this.state;
     const title = listIsForLoggedInUser ? `Your Christmas List (${email})` : `Christmas List for ${email}`;
+
     return (
-      <div>
-        <h3>{title}</h3>
-        {items ? this.renderList(items) : this.renderEmptyList()}
-      </div>
+      email === undefined ?
+        <div>
+          <h3>Woops, there seems to be no email! Please go back and try again.</h3>
+          <Link to="/search"><button>Back to Search</button></Link>
+        </div>
+        :
+        <div>
+          <h3>{title}</h3>
+          {items ? this.renderList(items) : this.renderEmptyList()}
+        </div>
     );
   }
 }
