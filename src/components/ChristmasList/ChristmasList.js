@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { getAccount } from '../../api/account';
 import {
   createChristmasList, dibChristmasListItem, getChristmasList, saveChristmasList,
 } from '../../api/christmasList';
@@ -130,11 +131,16 @@ class ChristmasList extends React.Component {
     getChristmasList(email)
       .then((response) => response.json())
       .then((data) => this.setState({ items: data.items }));
+
+    getAccount(email)
+      .then((data) => this.setState({ firstName: data.firstName, lastName: data.lastName }));
   }
 
   render() {
-    const { items, email, listIsForLoggedInUser } = this.state;
-    const title = listIsForLoggedInUser ? `Your Christmas List (${email})` : `Christmas List for ${email}`;
+    const {
+      items, email, listIsForLoggedInUser, firstName, lastName,
+    } = this.state;
+    const title = listIsForLoggedInUser ? `Your Christmas List (${firstName})` : `Christmas List for ${firstName} ${lastName}`;
 
     return (
       email === undefined

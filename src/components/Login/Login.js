@@ -25,7 +25,6 @@ export default class Login extends React.Component {
     const { email, password } = this.state;
 
     validateAccount(email, password)
-      .then((response) => response.json())
       .then((data) => {
         if (data.error) {
           this.setState({ errorMessage: data.message });
