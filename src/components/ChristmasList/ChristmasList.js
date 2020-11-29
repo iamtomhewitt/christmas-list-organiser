@@ -137,16 +137,19 @@ class ChristmasList extends React.Component {
     const title = listIsForLoggedInUser ? `Your Christmas List (${email})` : `Christmas List for ${email}`;
 
     return (
-      email === undefined ?
-        <div>
-          <h3>Woops, there seems to be no email! Please go back and try again.</h3>
-          <Link to="/search"><button>Back to Search</button></Link>
-        </div>
-        :
-        <div>
-          <h3>{title}</h3>
-          {items ? this.renderList(items) : this.renderEmptyList()}
-        </div>
+      email === undefined
+        ? (
+          <div>
+            <h3>Woops, there seems to be no email! Please go back and try again.</h3>
+            <Link to="/search"><button>Back to Search</button></Link>
+          </div>
+        )
+        : (
+          <div>
+            <h3>{title}</h3>
+            {items ? this.renderList(items) : this.renderEmptyList()}
+          </div>
+        )
     );
   }
 }
