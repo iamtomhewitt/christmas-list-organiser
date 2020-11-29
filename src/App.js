@@ -10,6 +10,12 @@ const LogoutButton = () => (
   </Link>
 );
 
+const HomeButton = () => (
+  <Link to="/home">
+    <button>Home</button>
+  </Link>
+);
+
 const App = () => {
   const location = useLocation();
   const [userData, setUserData] = useState({});
@@ -20,7 +26,7 @@ const App = () => {
 
   return (
     <>
-      {userData && <LogoutButton />}
+      {userData && <><LogoutButton /><HomeButton /></>}
       <Routes />
     </>
   );
