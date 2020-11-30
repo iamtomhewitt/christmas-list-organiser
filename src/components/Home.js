@@ -15,6 +15,9 @@ export const Home = (props) => {
       <Link to="/search">
         <button>Search for someone's list</button>
       </Link>
+      <Link to="/groups">
+        <button>Join a group</button>
+      </Link>
     </>
   );
 };

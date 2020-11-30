@@ -84,8 +84,10 @@ class ChristmasList extends React.Component {
     );
   }
 
-  renderList = (items) => {
-    const { newItemName, listIsForLoggedInUser } = this.state;
+  renderList = () => {
+    const {
+      items, newItemName, listIsForLoggedInUser, group,
+    } = this.state;
 
     return (
       <>
@@ -96,6 +98,7 @@ class ChristmasList extends React.Component {
           <>
             <input value={newItemName} onChange={this.handleChange} id="newItemName" />
             <button onClick={() => this.add()} disabled={newItemName === ''}>Add New Item</button>
+            {group && <div>Group: {group.name}</div>}
           </>
         )}
       </>
@@ -129,8 +132,7 @@ class ChristmasList extends React.Component {
     this.setState({ email, listIsForLoggedInUser });
 
     getChristmasList(email)
-      .then((response) => response.json())
-      .then((data) => this.setState({ items: data.items }));
+      .then((data) => this.setState({ items: data.items, group: data.group }));
 
     getAccount(email)
       .then((data) => this.setState({ firstName: data.firstName, lastName: data.lastName }));
@@ -153,7 +155,7 @@ class ChristmasList extends React.Component {
         : (
           <div>
             <h3>{title}</h3>
-            {items ? this.renderList(items) : this.renderEmptyList()}
+            {items ? this.renderList() : this.renderEmptyList()}
           </div>
         )
     );
