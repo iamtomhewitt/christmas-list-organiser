@@ -5,9 +5,14 @@ export const getGroups = () => fetch(`${url}/all`).then(((response) => response.
 export const createGroup = (name) => fetch(`${url}?name=${name}`, {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
-}).then((response) => response.json());
+});
 
-export const joinGroup = (email, name) => fetch(`${url}?email=${email}&name=${name}`, {
+export const joinGroup = (email, name) => fetch(`${url}/join?email=${email}&name=${name}`, {
+  method: 'PUT',
+  headers: { 'Content-Type': 'application/json' },
+});
+
+export const leaveGroup = (email, name) => fetch(`${url}/leave?email=${email}&name=${name}`, {
   method: 'PUT',
   headers: { 'Content-Type': 'application/json' },
 });

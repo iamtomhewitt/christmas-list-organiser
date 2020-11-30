@@ -1,6 +1,8 @@
 import React from 'react';
 import { getChristmasList } from '../../api/christmasList';
-import { getGroups, joinGroup } from '../../api/groups';
+import {
+  createGroup, getGroups, joinGroup, leaveGroup,
+} from '../../api/groups';
 import { getUserData } from '../../util/localStorage';
 
 class Groups extends React.Component {
@@ -13,6 +15,7 @@ class Groups extends React.Component {
       },
       usersEmail: '',
       errorMessage: '',
+      newGroupName: '',
     };
   }
 
@@ -24,7 +27,7 @@ class Groups extends React.Component {
       .then((groups) => this.setState({ groups }));
 
     getChristmasList(email)
-      .then((christmasList) => { this.setState({ christmasList }); });
+      .then((christmasList) => this.setState({ christmasList }));
   }
 
   joinGroup(name) {
@@ -35,17 +38,46 @@ class Groups extends React.Component {
           this.setState({ errorMessage: response.body });
         } else {
           getChristmasList(usersEmail)
-            .then((christmasList) => { this.setState({ christmasList }); });
+            .then((christmasList) => this.setState({ christmasList }));
         }
       });
   }
 
   leaveGroup(name) {
-    console.log(name);
+    const { usersEmail } = this.state;
+    leaveGroup(usersEmail, name)
+      .then((response) => {
+        if (!response.ok) {
+          this.setState({ errorMessage: response.body });
+        } else {
+          getChristmasList(usersEmail)
+            .then((christmasList) => { this.setState({ christmasList }); });
+        }
+      });
+  }
+
+  createGroup(name) {
+    createGroup(name)
+      .then((response) => {
+        if (!response.ok) {
+          return response.json();
+        }
+        getGroups()
+          .then((groups) => this.setState({ groups }));
+      })
+      .then((err) => this.setState({ errorMessage: err?.message || ' ' }));
+  }
+
+  handleChange = (event) => {
+    this.setState({
+      [event.target.id]: event.target.value,
+    });
   }
 
   render() {
-    const { groups, christmasList } = this.state;
+    const {
+      groups, christmasList, newGroupName, errorMessage,
+    } = this.state;
 
     const availableGroups = groups.filter((group) => !christmasList.groups.includes(group));
     const joinedGroups = groups.filter((group) => christmasList.groups.includes(group));
@@ -72,6 +104,11 @@ class Groups extends React.Component {
             </li>
           ))}
         </ul>
+
+        <input value={newGroupName} id="newGroupName" onChange={this.handleChange} />
+        <button onClick={() => this.createGroup(newGroupName)} disabled={newGroupName === ''}>Create New Group</button>
+
+        {errorMessage && <div>{errorMessage}</div>}
       </>
     );
   }
