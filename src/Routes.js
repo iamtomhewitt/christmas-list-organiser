@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import ChristmasList from './components/ChristmasList/ChristmasList';
+import Groups from './components/Groups/Groups';
 import Home from './components/Home';
 import Login from './components/Login/Login';
 import Register from './components/Register/Register';
@@ -13,5 +14,6 @@ export default () => (
     <Route path="/home" exact component={Home} />
     <Route path="/search" exact component={SearchPage} />
     <Route path="/christmasList" exact component={ChristmasList} />
+    <Route path="/groups" exact component={Groups} />
   </Switch>
 );

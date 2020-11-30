@@ -20,10 +20,11 @@ export const createChristmasList = (email) => fetch(url, {
       name: 'New Item',
       dibbed: false,
     }],
+    groups: [],
   }),
 });
 
-export const getChristmasList = (email) => fetch(`${url}?email=${email}`);
+export const getChristmasList = (email) => fetch(`${url}?email=${email}`).then((response) => response.json());
 
 export const getAllChristmasLists = () => fetch(`${url}/all`);
 

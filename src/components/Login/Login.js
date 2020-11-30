@@ -1,7 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { validateAccount } from '../../api/account';
-import { saveUserData } from '../../util/localStorage';
+import { getUserData, saveUserData } from '../../util/localStorage';
 
 export default class Login extends React.Component {
   constructor() {
@@ -39,21 +39,26 @@ export default class Login extends React.Component {
     const { email, password, errorMessage } = this.state;
 
     return (
-      <div>
-        <h1>Login</h1>
-        <input value={email} onChange={this.handleChange} id="email" />
-        <p />
-        <input value={password} onChange={this.handleChange} id="password" type="password" />
-        <p />
-        <button disabled={email === '' || password === ''} onClick={this.login}>Login</button>
-        <p />
-        <Link to="/register">
-          <div>Register</div>
-        </Link>
+      <>
+        {getUserData() ? <Redirect to="/home" />
+          : (
+            <div>
+              <h1>Login</h1>
+              <input value={email} onChange={this.handleChange} id="email" />
+              <p />
+              <input value={password} onChange={this.handleChange} id="password" type="password" />
+              <p />
+              <button disabled={email === '' || password === ''} onClick={this.login}>Login</button>
+              <p />
+              <Link to="/register">
+                <div>Register</div>
+              </Link>
 
-        {errorMessage
-          && <div>{errorMessage}</div>}
-      </div>
+              {errorMessage
+              && <div>{errorMessage}</div>}
+            </div>
+          )}
+      </>
     );
   }
 }
