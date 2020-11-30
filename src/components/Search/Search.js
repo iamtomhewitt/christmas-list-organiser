@@ -19,7 +19,18 @@ class SearchPage extends React.Component {
     getAllChristmasLists()
       .then((response) => response.json())
       .then((data) => {
-        const filteredLists = data.filter((list) => list.belongsTo !== this.state.usersEmail);
+        const listsForOtherUsers = data.filter((list) => list.belongsTo !== this.state.usersEmail);
+        const listForUser = data.filter((list) => list.belongsTo === this.state.usersEmail)[0];
+
+        let filteredLists = []
+        for (const list of listsForOtherUsers) {
+          for (const group of list.groups) {
+            if (listForUser.groups.includes(group)) {
+              filteredLists.push(list);
+            }
+          }
+        }
+
         this.setState({ lists: data, filteredLists });
       });
   }
@@ -48,6 +59,7 @@ class SearchPage extends React.Component {
             <p>{list.belongsTo}</p>
           </Link>
         ))}
+        <div>Can't see someones list? They might be in a group you are not a part of. Join a grop <Link to="/groups">here</Link>.</div>
         {filteredLists.length === 0 && <div>No lists found!</div>}
       </>
     );
