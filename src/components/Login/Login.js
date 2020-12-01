@@ -3,6 +3,8 @@ import { Link, Redirect } from 'react-router-dom';
 import { validateAccount } from '../../api/account';
 import { getUserData, saveUserData } from '../../util/localStorage';
 
+import './Login.scss';
+
 export default class Login extends React.Component {
   constructor() {
     super();
@@ -42,20 +44,18 @@ export default class Login extends React.Component {
       <>
         {getUserData() ? <Redirect to="/home" />
           : (
-            <div>
+            <div className="login">
               <h1>Login</h1>
-              <input value={email} onChange={this.handleChange} id="email" />
-              <p />
-              <input value={password} onChange={this.handleChange} id="password" type="password" />
-              <p />
+              <input value={email} placeholder='email' onChange={this.handleChange} id="email" />
+              <input value={password} placeholder='password' onChange={this.handleChange} id="password" type="password" />
               <button disabled={email === '' || password === ''} onClick={this.login}>Login</button>
-              <p />
-              <Link to="/register">
+
+              <Link to='/register'>
                 <div>Register</div>
               </Link>
 
               {errorMessage
-              && <div>{errorMessage}</div>}
+                && <div>{errorMessage}</div>}
             </div>
           )}
       </>
