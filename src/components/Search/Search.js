@@ -12,6 +12,7 @@ class SearchPage extends React.Component {
       filteredLists: [],
       searchCriteria: '',
       usersEmail: email,
+      listForUser: { groups: [] },
     };
   }
 
@@ -19,26 +20,20 @@ class SearchPage extends React.Component {
     getAllChristmasLists()
       .then((response) => response.json())
       .then((data) => {
-        const listsForOtherUsers = data.filter((list) => list.belongsTo !== this.state.usersEmail);
-        const listForUser = data.filter((list) => list.belongsTo === this.state.usersEmail)[0];
+        const { usersEmail } = this.state;
+        const listsForOtherUsers = data.filter((list) => list.belongsTo !== usersEmail);
+        const listForUser = data.filter((list) => list.belongsTo === usersEmail)[0];
+        const filteredLists = this.filterByUsersGroups(listsForOtherUsers, listForUser.groups);
 
-        let filteredLists = []
-        for (const list of listsForOtherUsers) {
-          for (const group of list.groups) {
-            if (listForUser.groups.includes(group)) {
-              filteredLists.push(list);
-            }
-          }
-        }
-
-        this.setState({ lists: data, filteredLists });
+        this.setState({ lists: data, filteredLists, listForUser });
       });
   }
 
   onChange = (event) => {
     const { id, value } = event.target;
-    const { lists, usersEmail } = this.state;
-    const filteredLists = lists.filter((list) => list.belongsTo.includes(value) && list.belongsTo !== usersEmail);
+    const { lists, usersEmail, listForUser: { groups } } = this.state;
+    const listsToFilter = lists.filter((list) => list.belongsTo.includes(value) && list.belongsTo !== usersEmail);
+    const filteredLists = this.filterByUsersGroups(listsToFilter, groups);
 
     this.setState({
       [id]: value,
@@ -46,8 +41,20 @@ class SearchPage extends React.Component {
     });
   }
 
+  filterByUsersGroups = (listToFilter, usersGroups) => {
+    const filteredLists = [];
+    for (const list of listToFilter) {
+      for (const group of list.groups) {
+        if (usersGroups.includes(group)) {
+          filteredLists.push(list);
+        }
+      }
+    }
+    return filteredLists;
+  }
+
   render() {
-    const { filteredLists, searchCriteria } = this.state;
+    const { filteredLists, searchCriteria, listForUser } = this.state;
 
     return (
       <>
@@ -59,8 +66,13 @@ class SearchPage extends React.Component {
             <p>{list.belongsTo}</p>
           </Link>
         ))}
-        <div>Can't see someones list? They might be in a group you are not a part of. Join a grop <Link to="/groups">here</Link>.</div>
         {filteredLists.length === 0 && <div>No lists found!</div>}
+        <div>
+          Can&apos;t see someones list? They might be in a group you are not a part of.
+          Join a group <Link to="/groups">here</Link>.
+          <br />You are in these groups:
+          {listForUser && listForUser.groups.map((group, i) => <li key={i}>{group}</li>)}
+        </div>
       </>
     );
   }
