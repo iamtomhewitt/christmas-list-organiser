@@ -46,11 +46,11 @@ export default class Login extends React.Component {
           : (
             <div className="login">
               <h1>Login</h1>
-              <input value={email} placeholder='email' onChange={this.handleChange} id="email" />
+              <input value={email} placeholder='email' onChange={this.handleChange} id="email" type='email' />
               <input value={password} placeholder='password' onChange={this.handleChange} id="password" type="password" />
               <button disabled={email === '' || password === ''} onClick={this.login}>Login</button>
 
-              <Link to='/register'>
+              <Link to='/register' >
                 <div>Register</div>
               </Link>
 
