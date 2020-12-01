@@ -5,6 +5,7 @@ import {
   createChristmasList, dibChristmasListItem, getChristmasList, saveChristmasList,
 } from '../../api/christmasList';
 import { getUserData } from '../../util/localStorage';
+import './ChristmasList.scss'
 
 class ChristmasList extends React.Component {
   constructor() {
@@ -65,10 +66,10 @@ class ChristmasList extends React.Component {
     const { listIsForLoggedInUser } = this.state;
 
     const itemForLoggedInUser = (
-      <div>
-        <button onClick={() => this.remove(item)}>Remove</button>
+      <>
+        <button className='remove-button' onClick={() => this.remove(item)}>X</button>
         {name}
-      </div>
+      </>
     );
 
     const itemForNotLoggedInUser = (
@@ -78,8 +79,9 @@ class ChristmasList extends React.Component {
     );
 
     return (
-      <li key={i}>
+      <li key={i} className='item'>
         {listIsForLoggedInUser ? itemForLoggedInUser : itemForNotLoggedInUser}
+        <hr/>
       </li>
     );
   }
@@ -95,11 +97,11 @@ class ChristmasList extends React.Component {
           {items.map((item, i) => this.renderItem(item, i))}
         </ul>
         {listIsForLoggedInUser && (
-          <>
-            <input value={newItemName} onChange={this.handleChange} id="newItemName" />
+          <div className='new-item'>
+            <input value={newItemName} placeholder='new item' onChange={this.handleChange} id="newItemName" />
             <button onClick={() => this.add()} disabled={newItemName === ''}>Add New Item</button>
             {group && <div>Group: {group.name}</div>}
-          </>
+          </div>
         )}
       </>
     );
@@ -142,18 +144,18 @@ class ChristmasList extends React.Component {
     const {
       items, email, listIsForLoggedInUser, firstName, lastName,
     } = this.state;
-    const title = listIsForLoggedInUser ? `Your Christmas List (${firstName})` : `Christmas List for ${firstName} ${lastName}`;
+    const title = listIsForLoggedInUser ? `Your Christmas List` : `Christmas List for ${firstName} ${lastName}`;
 
     return (
       email === undefined
         ? (
-          <div>
+          <div className='christmas-list'>
             <h3>Woops, there seems to be no email! Please go back and try again.</h3>
             <Link to="/search"><button>Back to Search</button></Link>
           </div>
         )
         : (
-          <div>
+          <div className='christmas-list'>
             <h3>{title}</h3>
             {items ? this.renderList() : this.renderEmptyList()}
           </div>
