@@ -1,30 +1,43 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { clearUserData, getUserData } from '../../util/localStorage';
+import './Masthead.scss';
 
-export const Masthead = () => {
+const isActive = (label, path) => (label === path ? 'active' : 'inactive');
+
+export const Masthead = (props) => {
   const firstName = getUserData()?.firstName || '';
+  const { path } = props;
 
   return (
-    <>
-      <Link to="/home">
-        Home
-      </Link>
-      &nbsp;
-      <Link to="/search">
-        Search
-      </Link>
-      &nbsp;
-      <Link to="/groups">
-        Groups
-      </Link>
-      &nbsp;&nbsp;&nbsp;&nbsp;
-      <span>
+    <div className="masthead">
+      <ul>
+        <li>
+          <Link className={isActive('/home', path)} to="/home">
+            Home
+          </Link>
+        </li>
+
+        <li>
+          <Link className={isActive('/search', path)} to="/search">
+            Search
+          </Link>
+        </li>
+
+        <li>
+          <Link className={isActive('/groups', path)} to="/groups">
+            Groups
+          </Link>
+        </li>
+      </ul>
+
+      <span className="logout">
         Not {firstName}?&nbsp;
         <Link to="/">
           <span onClick={() => clearUserData()}>Logout</span>
         </Link>
       </span>
-    </>
+
+    </div>
   );
 };

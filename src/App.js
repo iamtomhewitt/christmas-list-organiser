@@ -7,6 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 const App = () => {
   const location = useLocation();
+  const { pathname } = location;
   const [userData, setUserData] = useState({});
 
   useEffect(() => {
@@ -15,7 +16,7 @@ const App = () => {
 
   return (
     <>
-      {userData && <Masthead />}
+      {userData && <Masthead path={pathname} />}
       <Routes />
     </>
   );
