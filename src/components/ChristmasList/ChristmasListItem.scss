@@ -1,0 +1,35 @@
+.christmas-list-item {
+  border-radius: 5%;
+  box-shadow: 0 0 20px 0 #d9e4f1;
+  display: inline-block;
+  height: 200px;
+  margin: 0 10px 10px;
+  width: 200px;
+
+  .remove-button {
+    background-color: tomato;
+    border: 0;
+    border-radius: 50%;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    height: 30px;
+    margin-top: 10px;
+    position: absolute;
+    width: 30px;
+
+    &:hover {
+      color: red;
+    }
+  }
+
+  img {
+    margin-bottom: 4px;
+    margin-top: 7px;
+    width: 75%;
+  }
+
+  span {
+    margin-right: 35px;
+  }
+}

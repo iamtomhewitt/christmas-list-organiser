@@ -1,41 +1,18 @@
 .christmas-list {
   margin-top: 30px;
 
-  h3 {
+  h1 {
     text-align: center;
   }
 
   ul {
-    margin: auto;
-    list-style: none;
     font-size: 22px;
-    overflow-y: scroll;
-    // column-count: 4;
-    max-height: 275px;
-    width: 50%;
+    list-style: none;
+    margin: auto;
     padding: 0;
-  }
-
-  li {
-    margin-bottom: 40px;
-    height: 50px;
-  }
-
-  .item {
-    .remove-button {
-      border-radius: 50%;
-      height: 30px;
-      width: 30px;
-      color: white;
-      background-color: tomato;
-      border: none;
-      font-weight: bold;
-      font-size: 14px;
-      vertical-align: top;
-    }
-    .remove-button:hover {
-      color: red;
-    }
+    text-align: center;
+    vertical-align: top;
+    width: 80%;
   }
 
   .new-item {
@@ -60,7 +37,7 @@
       margin-bottom: 20px;
       padding: 10px 0;
       width: 15%;
-  
+
       &:disabled {
         color: rgb(206, 206, 206);
       }

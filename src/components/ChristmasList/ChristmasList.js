@@ -5,7 +5,8 @@ import {
   createChristmasList, dibChristmasListItem, getChristmasList, saveChristmasList,
 } from '../../api/christmasList';
 import { getUserData } from '../../util/localStorage';
-import './ChristmasList.scss'
+import './ChristmasList.scss';
+import { ChristmasListItem } from './ChristmasListItem';
 
 class ChristmasList extends React.Component {
   constructor() {
@@ -14,28 +15,31 @@ class ChristmasList extends React.Component {
       items: [],
       email: '',
       newItemName: '',
+      groups: [],
     };
   }
 
   remove = (item) => {
-    const { items, email } = this.state;
+    const { items, email, groups } = this.state;
     const listWithoutItem = items.filter((i) => i !== item);
 
-    saveChristmasList(email, listWithoutItem)
+    saveChristmasList(email, listWithoutItem, groups)
       .then((response) => response.json())
       .then((data) => {
-        this.setState({ items: data.items });
+        this.setState({ items: data.items, groups: data.groups });
       });
   }
 
   add = () => {
-    const { items, newItemName, email } = this.state;
+    const {
+      items, newItemName, email, groups,
+    } = this.state;
     items.push({ name: newItemName.trim(), dibbed: false });
 
-    saveChristmasList(email, items)
+    saveChristmasList(email, items, groups)
       .then((response) => response.json())
       .then((data) => {
-        this.setState({ items: data.items, newItemName: ' ' });
+        this.setState({ items: data.items, newItemName: ' ', groups: data.groups });
       });
   }
 
@@ -60,32 +64,6 @@ class ChristmasList extends React.Component {
       .then((data) => this.setState({ items: data.items }));
   }
 
-  renderItem = (item, i) => {
-    const { name, dibbedBy, dibbed } = item;
-    const { firstName = '', lastName = '' } = dibbedBy || {};
-    const { listIsForLoggedInUser } = this.state;
-
-    const itemForLoggedInUser = (
-      <>
-        <button className='remove-button' onClick={() => this.remove(item)}>X</button>
-        {name}
-      </>
-    );
-
-    const itemForNotLoggedInUser = (
-      <div>
-        <div>{name} {dibbed ? `Dibbed by ${firstName} ${lastName}` : <button onClick={() => this.dibItem(name)}>Dib this item</button>}</div>
-      </div>
-    );
-
-    return (
-      <li key={i} className='item'>
-        {listIsForLoggedInUser ? itemForLoggedInUser : itemForNotLoggedInUser}
-        <hr/>
-      </li>
-    );
-  }
-
   renderList = () => {
     const {
       items, newItemName, listIsForLoggedInUser, group,
@@ -94,11 +72,11 @@ class ChristmasList extends React.Component {
     return (
       <>
         <ul>
-          {items.map((item, i) => this.renderItem(item, i))}
+          {items.map((item, i) => <ChristmasListItem key={i} item={item} remove={this.remove} dibItem={this.dibItem} listIsForLoggedInUser={listIsForLoggedInUser} />)}
         </ul>
         {listIsForLoggedInUser && (
-          <div className='new-item'>
-            <input value={newItemName} placeholder='new item' onChange={this.handleChange} id="newItemName" />
+          <div className="new-item">
+            <input value={newItemName} placeholder="new item" onChange={this.handleChange} id="newItemName" />
             <button onClick={() => this.add()} disabled={newItemName === ''}>Add New Item</button>
             {group && <div>Group: {group.name}</div>}
           </div>
@@ -134,7 +112,7 @@ class ChristmasList extends React.Component {
     this.setState({ email, listIsForLoggedInUser });
 
     getChristmasList(email)
-      .then((data) => this.setState({ items: data.items, group: data.group }));
+      .then((data) => { console.log('data', data); this.setState({ items: data.items, groups: data.groups }); });
 
     getAccount(email)
       .then((data) => this.setState({ firstName: data.firstName, lastName: data.lastName }));
@@ -144,19 +122,19 @@ class ChristmasList extends React.Component {
     const {
       items, email, listIsForLoggedInUser, firstName, lastName,
     } = this.state;
-    const title = listIsForLoggedInUser ? `Your Christmas List` : `Christmas List for ${firstName} ${lastName}`;
+    const title = listIsForLoggedInUser ? 'Your Christmas List' : `Christmas List for ${firstName} ${lastName}`;
 
     return (
       email === undefined
         ? (
-          <div className='christmas-list'>
+          <div className="christmas-list">
             <h3>Woops, there seems to be no email! Please go back and try again.</h3>
             <Link to="/search"><button>Back to Search</button></Link>
           </div>
         )
         : (
-          <div className='christmas-list'>
-            <h3>{title}</h3>
+          <div className="christmas-list">
+            <h1>{title}</h1>
             {items ? this.renderList() : this.renderEmptyList()}
           </div>
         )
