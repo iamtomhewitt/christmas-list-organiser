@@ -1,0 +1,61 @@
+.christmas-list-item {
+  border-radius: 5%;
+  box-shadow: 0 0 20px 0 #d9e4f1;
+  display: inline-block;
+  font-size: 18px;
+  font-weight: lighter;
+  height: 200px;
+  margin: 0 10px 10px;
+  width: 200px;
+
+  .remove-button {
+    background-color: tomato;
+    border: 0;
+    border-radius: 50%;
+    color: white;
+    font-size: 14px;
+    font-weight: lighter;
+    height: 30px;
+    margin-top: 10px;
+    position: absolute;
+    width: 30px;
+
+    &:hover {
+      color: red;
+    }
+  }
+
+  .dib-button {
+    background-color: rgb(49, 209, 110);
+    border: 0;
+    border-radius: 50%;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    height: 30px;
+    margin-top: 10px;
+    position: absolute;
+    width: 40px;
+
+    &:hover {
+      color: rgb(0, 255, 42);
+    }
+  }
+
+  .dibbed-banner {
+    background-color: #89baff;
+    box-shadow: 0 0 20px 12px #d9e4f1;
+    color: #fff;
+    font-size: 18px;
+    font-weight: lighter;
+    padding: 0 10px;
+    position: absolute;
+    width: inherit;
+  }
+
+  img {
+    margin-bottom: 4px;
+    margin-top: 7px;
+    width: 75%;
+  }
+}

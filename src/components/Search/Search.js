@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { getAllChristmasLists } from '../../api/christmasList';
 import { getUserData } from '../../util/localStorage';
+import './Search.scss';
 
 class SearchPage extends React.Component {
   constructor() {
@@ -23,7 +24,7 @@ class SearchPage extends React.Component {
         const { usersEmail } = this.state;
         const listsForOtherUsers = data.filter((list) => list.belongsTo !== usersEmail);
         const listForUser = data.filter((list) => list.belongsTo === usersEmail)[0];
-        const filteredLists = this.filterByUsersGroups(listsForOtherUsers, listForUser.groups);
+        const filteredLists = Array.from(new Set(this.filterByUsersGroups(listsForOtherUsers, listForUser.groups)));
 
         this.setState({ lists: data, filteredLists, listForUser });
       });
@@ -53,27 +54,41 @@ class SearchPage extends React.Component {
     return filteredLists;
   }
 
+  renderPerson = (list) => (
+    <li key={list.belongsTo}>
+      <Link to={{ pathname: '/christmasList', email: list.belongsTo }}>
+        {list.belongsTo}
+      </Link>
+    </li>
+  )
+
   render() {
     const { filteredLists, searchCriteria, listForUser } = this.state;
 
     return (
-      <>
+      <div className="search">
         <h1>Search for a Christmas List</h1>
-        <label>Their Email</label>
-        <input value={searchCriteria} onChange={this.onChange} id="searchCriteria" />
-        {filteredLists.map((list, i) => (
-          <Link key={i} to={{ pathname: '/christmasList', email: list.belongsTo }}>
-            <p>{list.belongsTo}</p>
-          </Link>
-        ))}
-        {filteredLists.length === 0 && <div>No lists found!</div>}
-        <div>
+        <input value={searchCriteria} placeholder="their name or email" onChange={this.onChange} id="searchCriteria" />
+        <ul>
+          {filteredLists.map((list) => (
+            this.renderPerson(list)
+          ))}
+        </ul>
+
+        {filteredLists.length === 0 && <div className="no-lists">No lists found!</div>}
+
+        <div className="group-info">
           Can&apos;t see someones list? They might be in a group you are not a part of.
           Join a group <Link to="/groups">here</Link>.
-          <br />You are in these groups:
-          {listForUser && listForUser.groups.map((group, i) => <li key={i}>{group}</li>)}
+          <br /><span>You are in these groups:</span>
+          {listForUser
+            && (
+              <ul>
+                {listForUser.groups.map((group, i) => <li key={i}>{group}</li>)}
+              </ul>
+            )}
         </div>
-      </>
+      </div>
     );
   }
 }

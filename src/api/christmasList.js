@@ -1,13 +1,15 @@
 // TODO make rest of methods return response.json()
+// TODO make api files use a base method gor gets posts and puts instead of writing out the method and headers everytime
 
 const url = 'http://localhost:8080/christmas-list';
 
-export const saveChristmasList = (email, items) => fetch(url, {
+export const saveChristmasList = (email, items, groups) => fetch(url, {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify({
     belongsTo: email,
     items,
+    groups,
   }),
 });
 

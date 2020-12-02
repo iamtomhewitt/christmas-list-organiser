@@ -1,0 +1,28 @@
+.login {
+  text-align: center;
+
+  input {
+    border: 0;
+    border-bottom: 1px solid gray;
+    color: gray;
+    display: block;
+    margin: auto auto 20px;
+    padding: 8px;
+    width: 15%;
+  }
+
+  button {
+    background-color: #1fa3ec;
+    border: 0;
+    border-radius: 4px;
+    color: #fff;
+    margin: 0;
+    margin-bottom: 20px;
+    padding: 10px 0;
+    width: 15%;
+
+    &:disabled {
+      color: rgb(206, 206, 206);
+    }
+  }
+}

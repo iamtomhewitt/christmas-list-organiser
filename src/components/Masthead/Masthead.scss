@@ -1,0 +1,32 @@
+.masthead {
+  font-size: large;
+  font-weight: lighter;
+  text-align: center;
+
+  ul {
+    list-style-type: none;
+    margin: 10px 0 0;
+  }
+
+  li {
+    display: inline;
+    font-size: 24px;
+    font-weight: 700;
+    padding: 0 15px;
+    vertical-align: sub;
+
+    a {
+      color: #4e4e4e;
+      text-decoration: none;
+
+      &.active {
+        color: #e11515;
+        font-weight: bold;
+      }
+    }
+  }
+
+  .logout {
+    font-size: 16px;
+  }
+}

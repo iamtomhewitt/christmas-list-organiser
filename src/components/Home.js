@@ -10,10 +10,8 @@ export const Home = (props) => {
     <>
       <ChristmasList email={email} />
 
-      <p />
-
       <Link to="/groups">
-        <button>Join a group</button>
+        Join a group
       </Link>
     </>
   );

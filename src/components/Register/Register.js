@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { createAccount } from '../../api/account';
+import './Register.scss';
 
 export default class Register extends React.Component {
   constructor() {
@@ -48,33 +49,34 @@ export default class Register extends React.Component {
       });
   }
 
+  canLogin = () => {
+    const {
+      email, password, firstName, lastName,
+    } = this.state;
+
+    return !(email && password && firstName && lastName);
+  }
+
   render() {
     const {
       email, password, firstName, lastName, errorMessage, hasRegistered,
     } = this.state;
 
     return (
-      <div>
+      <div className="register">
 
         <h1>Register</h1>
 
-        <div style={{ fontWeight: 'bold' }}>
-          WARNING! There's no security on this, so choose a password that you don't use for other things.
+        <div className="warning">
+          WARNING! There's no security on this, so don't use a personal password!
         </div>
-        <label>Email</label>
-        <input value={email} onChange={this.handleChange} id="email" />
-        <p />
-        <label>Password</label>
-        <input value={password} onChange={this.handleChange} id="password" type="password" />
-        <p />
-        <label>First Name</label>
-        <input value={firstName} onChange={this.handleChange} id="firstName" />
-        <p />
-        <label>Last Name</label>
-        <input value={lastName} onChange={this.handleChange} id="lastName" />
-        <p />
-        <button onClick={this.register}>Register</button>
-        <p />
+
+        <input value={email} placeholder="email" onChange={this.handleChange} id="email" />
+        <input value={password} placeholder="password" onChange={this.handleChange} id="password" type="password" />
+        <input value={firstName} placeholder="first name" onChange={this.handleChange} id="firstName" />
+        <input value={lastName} placeholder="last name" onChange={this.handleChange} id="lastName" />
+
+        <button disabled={this.canLogin()} onClick={this.register}>Register</button>
 
         {errorMessage
           && <div>{errorMessage}</div>}
@@ -82,11 +84,8 @@ export default class Register extends React.Component {
         {hasRegistered
           && (
             <div>
-              Registered!
-              <p />
-              <Link to="/">
-                Return to login!
-              </Link>
+              Registered successfully!<br />
+              <Link to="/">Return to Login</Link>
             </div>
           )}
       </div>
