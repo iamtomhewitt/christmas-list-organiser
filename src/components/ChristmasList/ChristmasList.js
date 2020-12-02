@@ -112,7 +112,7 @@ class ChristmasList extends React.Component {
     this.setState({ email, listIsForLoggedInUser });
 
     getChristmasList(email)
-      .then((data) => { console.log('data', data); this.setState({ items: data.items, groups: data.groups }); });
+      .then((data) => this.setState({ items: data.items, groups: data.groups }));
 
     getAccount(email)
       .then((data) => this.setState({ firstName: data.firstName, lastName: data.lastName }));
