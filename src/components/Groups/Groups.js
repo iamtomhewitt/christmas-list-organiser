@@ -4,6 +4,7 @@ import {
   createGroup, getGroups, joinGroup, leaveGroup,
 } from '../../api/groups';
 import { getUserData } from '../../util/localStorage';
+import './Groups.scss';
 
 class Groups extends React.Component {
   constructor() {
@@ -65,7 +66,7 @@ class Groups extends React.Component {
         getGroups()
           .then((groups) => this.setState({ groups }));
       })
-      .then((err) => this.setState({ errorMessage: err?.message || ' ' }));
+      .then((err) => this.setState({ errorMessage: err?.message || ' ', newGroupName: '' }));
   }
 
   handleChange = (event) => {
@@ -83,14 +84,14 @@ class Groups extends React.Component {
     const joinedGroups = groups.filter((group) => christmasList.groups.includes(group));
 
     return (
-      <>
+      <div className="groups">
         <h1>Groups</h1>
         <h3>Available Groups</h3>
         <ul>
           {availableGroups.map((group, i) => (
             <li key={i}>
-              {group}
-              <button onClick={() => this.joinGroup(group)}>Join Group</button>
+              <button className="join-button" onClick={() => this.joinGroup(group)}>+</button>
+              <div>{group}</div>
             </li>
           ))}
         </ul>
@@ -99,17 +100,17 @@ class Groups extends React.Component {
         <ul>
           {joinedGroups.map((group, i) => (
             <li key={i}>
-              {group}
-              <button onClick={() => this.leaveGroup(group)}>Leave Group</button>
+              <button className="leave-button" onClick={() => this.leaveGroup(group)}>x</button>
+              <div>{group}</div>
             </li>
           ))}
         </ul>
 
-        <input value={newGroupName} id="newGroupName" onChange={this.handleChange} />
-        <button onClick={() => this.createGroup(newGroupName)} disabled={newGroupName === ''}>Create New Group</button>
+        <input value={newGroupName} placeholder="new group name" id="newGroupName" onChange={this.handleChange} />
+        <button className='create-button' onClick={() => this.createGroup(newGroupName)} disabled={newGroupName === ''}>Create New Group</button>
 
         {errorMessage && <div>{errorMessage}</div>}
-      </>
+      </div>
     );
   }
 }
