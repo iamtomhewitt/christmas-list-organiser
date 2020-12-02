@@ -24,7 +24,7 @@ class SearchPage extends React.Component {
         const { usersEmail } = this.state;
         const listsForOtherUsers = data.filter((list) => list.belongsTo !== usersEmail);
         const listForUser = data.filter((list) => list.belongsTo === usersEmail)[0];
-        const filteredLists = this.filterByUsersGroups(listsForOtherUsers, listForUser.groups);
+        const filteredLists = Array.from(new Set(this.filterByUsersGroups(listsForOtherUsers, listForUser.groups)));
 
         this.setState({ lists: data, filteredLists, listForUser });
       });
@@ -70,7 +70,7 @@ class SearchPage extends React.Component {
         <h1>Search for a Christmas List</h1>
         <input value={searchCriteria} placeholder="their name or email" onChange={this.onChange} id="searchCriteria" />
         <ul>
-          {filteredLists.map((list, i) => (
+          {filteredLists.map((list) => (
             this.renderPerson(list)
           ))}
         </ul>
