@@ -135,7 +135,7 @@ class ChristmasList extends React.Component {
       </div>
     );
 
-    const WithEmail = () => (
+    const WithEmail = (
           <div className="christmas-list">
             <h1>{title}</h1>
             {items ? this.renderList() : this.renderEmptyList()}
@@ -152,7 +152,7 @@ class ChristmasList extends React.Component {
     );
 
     return (
-      !email ? <WithNoEmail /> : error ? <Error /> : <WithEmail />
+      !email ? <WithNoEmail /> : error ? <Error /> : WithEmail
     );
   }
 }
