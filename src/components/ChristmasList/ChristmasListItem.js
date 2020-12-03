@@ -33,5 +33,5 @@ const ItemForNonLoggedInUser = ({ item, dibItem }) => {
 export const ChristmasListItem = ({
   item, remove, dibItem, listIsForLoggedInUser,
 }) => (
-    listIsForLoggedInUser ? <ItemForLoggedInUser item={item} remove={remove} /> : <ItemForNonLoggedInUser item={item} dibItem={dibItem} />
-  );
+  listIsForLoggedInUser ? <ItemForLoggedInUser item={item} remove={remove} /> : <ItemForNonLoggedInUser item={item} dibItem={dibItem} />
+);

@@ -5,8 +5,8 @@ import {
   createChristmasList, dibChristmasListItem, getChristmasList, saveChristmasList,
 } from '../../api/christmasList';
 import { getUserData } from '../../util/localStorage';
-import './ChristmasList.scss';
 import { ChristmasListItem } from './ChristmasListItem';
+import './ChristmasList.scss';
 
 class ChristmasList extends React.Component {
   constructor() {
@@ -106,38 +106,53 @@ class ChristmasList extends React.Component {
     );
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const { email } = this.props.location || getUserData();
     const listIsForLoggedInUser = email === getUserData().email;
     this.setState({ email, listIsForLoggedInUser });
 
-    getChristmasList(email)
-      .then((data) => this.setState({ items: data.items, groups: data.groups }));
+    const christmasList = await getChristmasList(email);
+    const { items = [], groups = [], error } = christmasList;
+    this.setState({ items, groups, error: error ? christmasList.message : '' });
 
-    getAccount(email)
-      .then((data) => this.setState({ firstName: data.firstName, lastName: data.lastName }));
+    const account = await getAccount(email);
+    const { firstName = '', lastName = '' } = account;
+    this.setState({ firstName, lastName });
   }
 
   render() {
     const {
-      items, email, listIsForLoggedInUser, firstName, lastName,
+      items, email, listIsForLoggedInUser, firstName, lastName, error,
     } = this.state;
     const title = listIsForLoggedInUser ? 'Your Christmas List' : `Christmas List for ${firstName} ${lastName}`;
 
-    return (
-      email === undefined
-        ? (
+    const WithNoEmail = () => (
           <div className="christmas-list">
-            <h3>Woops, there seems to be no email! Please go back and try again.</h3>
+        <div className="no-email">
+          <h3>Woops, I've lost the email you clicked on! Please go back and try again.</h3>
             <Link to="/search"><button>Back to Search</button></Link>
           </div>
-        )
-        : (
+      </div>
+    );
+
+    const WithEmail = () => (
           <div className="christmas-list">
             <h1>{title}</h1>
             {items ? this.renderList() : this.renderEmptyList()}
           </div>
-        )
+    );
+
+    const Error = () => (
+      <div className="christmas-list">
+        <div className="error">
+          <h3>Error! {error}</h3>
+          <Link to="/search"><button>Back to Search</button></Link>
+        </div>
+      </div>
+    );
+
+    return (
+      !email ? <WithNoEmail /> : error ? <Error /> : <WithEmail />
     );
   }
 }
