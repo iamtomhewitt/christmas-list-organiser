@@ -20,53 +20,30 @@ class Groups extends React.Component {
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const { email } = getUserData();
     this.setState({ usersEmail: email });
 
-    getGroups()
-      .then((groups) => this.setState({ groups }));
+    const groups = await getGroups();
+    this.setState({ groups });
 
-    getChristmasList(email)
-      .then((christmasList) => this.setState({ christmasList }));
+    const christmasList = await getChristmasList(email);
+    this.setState({ christmasList });
   }
 
-  joinGroup(name) {
+  alterGroup = async (name, joining) => {
     const { usersEmail } = this.state;
-    joinGroup(usersEmail, name)
-      .then((response) => {
-        if (!response.ok) {
-          this.setState({ errorMessage: response.body });
-        } else {
-          getChristmasList(usersEmail)
-            .then((christmasList) => this.setState({ christmasList }));
-        }
-      });
+    const groupResponse = joining ? await joinGroup(usersEmail, name) : await leaveGroup(usersEmail, name);
+    const christmasList = await getChristmasList(usersEmail);
+    const errorMessage = groupResponse.message || '';
+    this.setState({ christmasList, errorMessage });
   }
 
-  leaveGroup(name) {
-    const { usersEmail } = this.state;
-    leaveGroup(usersEmail, name)
-      .then((response) => {
-        if (!response.ok) {
-          this.setState({ errorMessage: response.body });
-        } else {
-          getChristmasList(usersEmail)
-            .then((christmasList) => { this.setState({ christmasList }); });
-        }
-      });
-  }
-
-  createGroup(name) {
-    createGroup(name)
-      .then((response) => {
-        if (!response.ok) {
-          return response.json();
-        }
-        getGroups()
-          .then((groups) => this.setState({ groups }));
-      })
-      .then((err) => this.setState({ errorMessage: err?.message || ' ', newGroupName: '' }));
+  createGroup = async (name) => {
+    const groupResponse = await createGroup(name);
+    const groups = await getGroups();
+    const errorMessage = groupResponse.message || '';
+    this.setState({ groups, errorMessage, newGroupName: '' });
   }
 
   handleChange = (event) => {
@@ -75,39 +52,48 @@ class Groups extends React.Component {
     });
   }
 
+  isJoined = (group) => {
+    const { christmasList: { groups = [] } } = this.state;
+    return groups.includes(group);
+  }
+
+  renderAvailableGroup = (group) => (
+    <li key={group}>
+      <button className="join-button" onClick={() => this.alterGroup(group, true)}>+</button>
+      <div>{group}</div>
+    </li>
+  )
+
+  renderJoinedGroup = (group) => (
+    <li key={group}>
+      <button className="leave-button" onClick={() => this.alterGroup(group, false)}>x</button>
+      <div>{group}</div>
+    </li>
+  )
+
   render() {
     const {
-      groups, christmasList, newGroupName, errorMessage,
+      groups, newGroupName, errorMessage,
     } = this.state;
 
-    const availableGroups = groups.filter((group) => !christmasList.groups.includes(group));
-    const joinedGroups = groups.filter((group) => christmasList.groups.includes(group));
+    const joinedGroups = groups.filter(this.isJoined);
+    const availableGroups = groups.filter((g) => !this.isJoined(g));
 
     return (
       <div className="groups">
         <h1>Groups</h1>
         <h3>Available Groups</h3>
         <ul>
-          {availableGroups.map((group, i) => (
-            <li key={i}>
-              <button className="join-button" onClick={() => this.joinGroup(group)}>+</button>
-              <div>{group}</div>
-            </li>
-          ))}
+          {availableGroups.map((g) => this.renderAvailableGroup(g))}
         </ul>
 
         <h3>Your Groups</h3>
         <ul>
-          {joinedGroups.map((group, i) => (
-            <li key={i}>
-              <button className="leave-button" onClick={() => this.leaveGroup(group)}>x</button>
-              <div>{group}</div>
-            </li>
-          ))}
+          {joinedGroups.map((g) => this.renderJoinedGroup(g))}
         </ul>
 
         <input value={newGroupName} placeholder="new group name" id="newGroupName" onChange={this.handleChange} />
-        <button className='create-button' onClick={() => this.createGroup(newGroupName)} disabled={newGroupName === ''}>Create New Group</button>
+        <button className="create-button" onClick={() => this.createGroup(newGroupName)} disabled={newGroupName === ''}>Create New Group</button>
 
         {errorMessage && <div>{errorMessage}</div>}
       </div>

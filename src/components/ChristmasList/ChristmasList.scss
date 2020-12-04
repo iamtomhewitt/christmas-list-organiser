@@ -1,20 +1,32 @@
 .christmas-list {
+  font-weight: lighter;
   margin-top: 10px;
 
-  h1 {
-    font-weight: lighter;
-    margin-bottom: 30px;
+  .error {
     text-align: center;
+
+    h3 {
+      color: rgb(231, 33, 33);
+      font-weight: lighter;
+      margin-bottom: 30px;
+    }
+
+    button {
+      @extend %button;
+    }
   }
 
-  ul {
-    font-size: 22px;
-    list-style: none;
-    margin: auto;
-    padding: 0;
+  .no-email {
     text-align: center;
-    vertical-align: top;
-    width: 80%;
+
+    h3 {
+      font-weight: lighter;
+      margin-bottom: 30px;
+    }
+
+    button {
+      @extend %button;
+    }
   }
 
   .new-item {
@@ -31,18 +43,38 @@
     }
 
     button {
-      background-color: #1fa3ec;
-      border: 0;
-      border-radius: 4px;
-      color: #fff;
-      margin: 0;
-      margin-bottom: 20px;
-      padding: 10px 0;
-      width: 15%;
-
-      &:disabled {
-        color: rgb(206, 206, 206);
-      }
+      @extend %button;
     }
+  }
+
+  h1 {
+    font-weight: lighter;
+    margin-bottom: 30px;
+    text-align: center;
+  }
+
+  ul {
+    font-size: 22px;
+    list-style: none;
+    margin: auto;
+    padding: 0;
+    text-align: center;
+    vertical-align: top;
+    width: 80%;
+  }
+}
+
+%button {
+  background-color: #1fa3ec;
+  border: 0;
+  border-radius: 4px;
+  color: #fff;
+  margin: 0;
+  margin-bottom: 20px;
+  padding: 10px 0;
+  width: 15%;
+
+  &:disabled {
+    color: rgb(206, 206, 206);
   }
 }

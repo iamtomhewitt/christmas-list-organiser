@@ -1,6 +1,8 @@
 import React from 'react';
 import './ChristmasListItem.scss';
 
+const defaultIcon = 'https://freeiconshop.com/wp-content/uploads/edd/gift-flat.png';
+
 const trim = (name) => {
   const length = 21;
   return name.length > length ? `${name.substring(0, length)}...` : name;
@@ -11,7 +13,7 @@ const ItemForLoggedInUser = ({ item, remove }) => {
   return (
     <li className="christmas-list-item">
       <button className="remove-button" onClick={() => remove(item)}>X</button>
-      <img src="https://freeiconshop.com/wp-content/uploads/edd/gift-flat.png" alt="" />
+      <img src={defaultIcon} alt="" />
       <div>{trim(name)}</div>
     </li>
   );
@@ -24,7 +26,7 @@ const ItemForNonLoggedInUser = ({ item, dibItem }) => {
     <li className="christmas-list-item">
       {!dibbed && <button className="dib-button" onClick={() => dibItem(name)}>Dib</button>}
       {dibbed && <div className="dibbed-banner">Dibbed by {firstName} {lastName}</div>}
-      <img src="https://freeiconshop.com/wp-content/uploads/edd/gift-flat.png" alt="" />
+      <img src={defaultIcon} alt="" />
       <div>{trim(name)}</div>
     </li>
   );
@@ -32,6 +34,4 @@ const ItemForNonLoggedInUser = ({ item, dibItem }) => {
 
 export const ChristmasListItem = ({
   item, remove, dibItem, listIsForLoggedInUser,
-}) => (
-    listIsForLoggedInUser ? <ItemForLoggedInUser item={item} remove={remove} /> : <ItemForNonLoggedInUser item={item} dibItem={dibItem} />
-  );
+}) => (listIsForLoggedInUser ? <ItemForLoggedInUser item={item} remove={remove} /> : <ItemForNonLoggedInUser item={item} dibItem={dibItem} />);
