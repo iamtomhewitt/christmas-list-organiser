@@ -14,11 +14,11 @@ const isImageUrl = (url) => {
 };
 
 const ItemForLoggedInUser = ({ item, remove }) => {
-  const { name, image } = item;
+  const { name, image, dibbed } = item;
   const imageToUse = isImageUrl(image) ? image : defaultImage;
   return (
     <li className="christmas-list-item">
-      <button className="remove-button" onClick={() => remove(item)}>X</button>
+      {!dibbed && <button className="remove-button" onClick={() => remove(item)}>X</button>}
       <img src={imageToUse} alt="Present" />
       <div>{trim(name)}</div>
     </li>
