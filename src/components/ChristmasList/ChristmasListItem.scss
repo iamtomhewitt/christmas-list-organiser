@@ -54,8 +54,11 @@
   }
 
   img {
+    border-radius: 20%;
+    height: 150px;
     margin-bottom: 4px;
     margin-top: 7px;
-    width: 75%;
+    object-fit: cover;
+    width: 150px;
   }
 }

@@ -15,6 +15,7 @@ class ChristmasList extends React.Component {
       items: [],
       email: '',
       newItemName: '',
+      newItemImageUrl: '',
       groups: [],
     };
   }
@@ -28,12 +29,12 @@ class ChristmasList extends React.Component {
 
   add = async () => {
     const {
-      items, newItemName, groups,
+      items, groups, newItemName, newItemImageUrl,
     } = this.state;
-    items.push({ name: newItemName.trim(), dibbed: false });
+    items.push({ name: newItemName.trim(), image: newItemImageUrl, dibbed: false });
 
     const christmasList = await saveChristmasList(getUserData(), items, groups);
-    this.setState({ items: christmasList.items, groups: christmasList.groups, newItemName: '' });
+    this.setState({ items: christmasList.items, groups: christmasList.groups, newItemName: '', newItemImageUrl: '' });
   }
 
   dibItem = async (itemName) => {
@@ -50,7 +51,7 @@ class ChristmasList extends React.Component {
 
   renderList = () => {
     const {
-      items, newItemName, listIsForLoggedInUser, group,
+      items, newItemName, newItemImageUrl, listIsForLoggedInUser, group,
     } = this.state;
 
     return (
@@ -64,6 +65,7 @@ class ChristmasList extends React.Component {
         {listIsForLoggedInUser && (
           <div className="new-item">
             <input value={newItemName} placeholder="new item" onChange={this.handleChange} id="newItemName" />
+            <input value={newItemImageUrl} placeholder="optional - image url" onChange={this.handleChange} id="newItemImageUrl" />
             <button onClick={() => this.add()} disabled={newItemName === ''}>Add New Item</button>
             {group && <div>Group: {group.name}</div>}
           </div>
