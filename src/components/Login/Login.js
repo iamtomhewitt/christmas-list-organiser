@@ -2,7 +2,6 @@ import React from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { validateAccount } from '../../api/account';
 import { getUserData, saveUserData } from '../../util/localStorage';
-
 import './Login.scss';
 
 export default class Login extends React.Component {
@@ -23,18 +22,18 @@ export default class Login extends React.Component {
     });
   }
 
-  login = () => {
+  login = async () => {
     const { email, password } = this.state;
+    const { history } = this.props;
+    const response = await validateAccount(email, password);
+    const errorMessage = response.message || '';
 
-    validateAccount(email, password)
-      .then((data) => {
-        if (data.error) {
-          this.setState({ errorMessage: data.message });
-        } else {
-          saveUserData(data);
-          this.props.history.push('/home');
-        }
-      });
+    this.setState({ errorMessage });
+
+    if (!response.error) {
+      saveUserData(response);
+      history.push('/home');
+    }
   }
 
   render() {
@@ -54,8 +53,7 @@ export default class Login extends React.Component {
                 <div>Register</div>
               </Link>
 
-              {errorMessage
-                && <div>{errorMessage}</div>}
+              {errorMessage && <>{errorMessage}</>}
             </div>
           )}
       </>
