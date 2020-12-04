@@ -1,11 +1,13 @@
 .masthead {
   font-size: large;
   font-weight: lighter;
+  margin-bottom: 10px;
   text-align: center;
 
   ul {
     list-style-type: none;
     margin: 10px 0 0;
+    padding: 0;
   }
 
   li {
@@ -28,5 +30,12 @@
 
   .logout {
     font-size: 16px;
+    margin-left: 5px;
+  }
+
+  .countdown {
+    font-size: 16px;
+    font-weight: 400;
+    margin-right: 5px;
   }
 }

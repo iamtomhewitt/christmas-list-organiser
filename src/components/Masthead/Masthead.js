@@ -7,7 +7,7 @@ const isActive = (label, path) => (label === path ? 'active' : 'inactive');
 
 export const Masthead = (props) => {
   const firstName = getUserData()?.firstName || '';
-  const { path } = props;
+  const { path, countdown } = props;
 
   return (
     <div className="masthead">
@@ -31,12 +31,18 @@ export const Masthead = (props) => {
         </li>
       </ul>
 
-      <span className="logout">
-        Not {firstName}?&nbsp;
-        <Link to="/">
-          <span onClick={() => clearUserData()}>Logout</span>
-        </Link>
-      </span>
+      <div>
+        <span className="countdown">
+          <span>🎄{countdown}🎅🏼</span>
+        </span>
+
+        <span className="logout">
+          Not {firstName}?&nbsp;
+          <Link to="/">
+            <span onClick={() => clearUserData()}>Logout</span>
+          </Link>
+        </span>
+      </div>
 
     </div>
   );
