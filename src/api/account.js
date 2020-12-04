@@ -13,4 +13,4 @@ export const createAccount = (email, password, firstName, lastName) => fetch(url
     firstName,
     lastName,
   }),
-});
+}).then(((response) => response.json()));

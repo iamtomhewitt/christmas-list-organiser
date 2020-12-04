@@ -1,4 +1,5 @@
 .register {
+  font-weight: lighter;
   text-align: center;
 
   .warning {
@@ -13,6 +14,7 @@
     border-bottom: 1px solid gray;
     color: gray;
     display: block;
+    font-weight: lighter;
     margin: auto auto 20px;
     padding: 8px;
     width: 15%;

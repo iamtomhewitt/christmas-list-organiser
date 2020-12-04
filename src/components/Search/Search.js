@@ -17,17 +17,14 @@ class SearchPage extends React.Component {
     };
   }
 
-  componentDidMount() {
-    getAllChristmasLists()
-      .then((response) => response.json())
-      .then((data) => {
-        const { usersEmail } = this.state;
-        const listsForOtherUsers = data.filter((list) => list.belongsTo !== usersEmail);
-        const listForUser = data.filter((list) => list.belongsTo === usersEmail)[0];
-        const filteredLists = Array.from(new Set(this.filterByUsersGroups(listsForOtherUsers, listForUser.groups)));
+  async componentDidMount() {
+    const { usersEmail } = this.state;
+    const lists = await getAllChristmasLists();
+    const listsForOtherUsers = lists.filter((list) => list.belongsTo !== usersEmail);
+    const listForUser = lists.filter((list) => list.belongsTo === usersEmail)[0];
+    const filteredLists = Array.from(new Set(this.filterByUsersGroups(listsForOtherUsers, listForUser.groups)));
 
-        this.setState({ lists: data, filteredLists, listForUser });
-      });
+    this.setState({ lists, filteredLists, listForUser });
   }
 
   onChange = (event) => {
@@ -46,7 +43,7 @@ class SearchPage extends React.Component {
     const filteredLists = [];
     for (const list of listToFilter) {
       for (const group of list.groups) {
-        if (usersGroups.includes(group)) {
+        if (usersGroups.includes(group) && !filteredLists.includes(list)) {
           filteredLists.push(list);
         }
       }
@@ -70,9 +67,7 @@ class SearchPage extends React.Component {
         <h1>Search for a Christmas List</h1>
         <input value={searchCriteria} placeholder="their name or email" onChange={this.onChange} id="searchCriteria" />
         <ul>
-          {filteredLists.map((list) => (
-            this.renderPerson(list)
-          ))}
+          {filteredLists.map(this.renderPerson)}
         </ul>
 
         {filteredLists.length === 0 && <div className="no-lists">No lists found!</div>}

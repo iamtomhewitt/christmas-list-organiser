@@ -28,7 +28,7 @@ export const createChristmasList = (email) => fetch(url, {
 
 export const getChristmasList = (email) => fetch(`${url}?email=${email}`).then((response) => response.json());
 
-export const getAllChristmasLists = () => fetch(`${url}/all`);
+export const getAllChristmasLists = () => fetch(`${url}/all`).then((response) => response.json());
 
 export const dibChristmasListItem = (itemName, listOwner, dibbedBy) => fetch(`${url}?listOwner=${listOwner}&itemName=${itemName}&dibbedBy=${dibbedBy}`, {
   method: 'PUT',

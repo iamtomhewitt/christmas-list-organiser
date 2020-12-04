@@ -24,29 +24,15 @@ export default class Register extends React.Component {
     });
   }
 
-  register = () => {
+  register = async () => {
     const {
       email, password, firstName, lastName,
     } = this.state;
 
-    createAccount(email, password, firstName, lastName)
-      .then((response) => {
-        if (!response.ok) {
-          return response.json();
-        }
-      })
-      .then((data) => {
-        if (data) {
-          this.setState({
-            errorMessage: data.message,
-          });
-        } else {
-          this.setState({
-            errorMessage: '',
-            hasRegistered: true,
-          });
-        }
-      });
+    const response = await createAccount(email, password, firstName, lastName);
+    const errorMessage = response.message || '';
+    const hasRegistered = !response.error;
+    this.setState({ errorMessage, hasRegistered });
   }
 
   canLogin = () => {
@@ -64,7 +50,6 @@ export default class Register extends React.Component {
 
     return (
       <div className="register">
-
         <h1>Register</h1>
 
         <div className="warning">
