@@ -33,7 +33,7 @@ export const Masthead = (props) => {
 
       <div>
         <span className="countdown">
-          <span>{countdown}</span> until Christmas!&nbsp;
+          <span>🎄{countdown}🎅🏼</span>
         </span>
 
         <span className="logout">

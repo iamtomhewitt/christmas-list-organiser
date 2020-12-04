@@ -6,7 +6,7 @@ export const Home = (props) => {
   const { email } = props.location || getUserData();
 
   return (
-      <ChristmasList email={email} />
+    <ChristmasList email={email} />
   );
 };
 
