@@ -2,8 +2,8 @@ import { get, post, put } from '../util/http';
 
 const url = 'http://localhost:8080/christmas-list';
 
-export const saveChristmasList = (email, items, groups) => post(url, JSON.stringify({
-  belongsTo: email,
+export const saveChristmasList = (belongsTo, items, groups) => post(url, JSON.stringify({
+  belongsTo,
   items,
   groups,
 }));

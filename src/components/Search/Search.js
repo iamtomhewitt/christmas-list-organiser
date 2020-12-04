@@ -20,8 +20,8 @@ class SearchPage extends React.Component {
   async componentDidMount() {
     const { usersEmail } = this.state;
     const lists = await getAllChristmasLists();
-    const listsForOtherUsers = lists.filter((list) => list.belongsTo !== usersEmail);
-    const listForUser = lists.filter((list) => list.belongsTo === usersEmail)[0];
+    const listsForOtherUsers = lists.filter((list) => list.belongsTo.email !== usersEmail);
+    const listForUser = lists.filter((list) => list.belongsTo.email === usersEmail)[0];
     const filteredLists = Array.from(new Set(this.filterByUsersGroups(listsForOtherUsers, listForUser.groups)));
 
     this.setState({ lists, filteredLists, listForUser });
@@ -30,7 +30,7 @@ class SearchPage extends React.Component {
   onChange = (event) => {
     const { id, value } = event.target;
     const { lists, usersEmail, listForUser: { groups } } = this.state;
-    const listsToFilter = lists.filter((list) => list.belongsTo.includes(value) && list.belongsTo !== usersEmail);
+    const listsToFilter = lists.filter((list) => list.belongsTo.email.includes(value) && list.belongsTo.email !== usersEmail);
     const filteredLists = this.filterByUsersGroups(listsToFilter, groups);
 
     this.setState({
@@ -52,9 +52,9 @@ class SearchPage extends React.Component {
   }
 
   renderPerson = (list) => (
-    <li key={list.belongsTo}>
-      <Link to={{ pathname: '/christmasList', email: list.belongsTo }}>
-        {list.belongsTo}
+    <li key={list.belongsTo.email}>
+      <Link to={{ pathname: '/christmasList', email: list.belongsTo.email }}>
+        {list.belongsTo.email}
       </Link>
     </li>
   )

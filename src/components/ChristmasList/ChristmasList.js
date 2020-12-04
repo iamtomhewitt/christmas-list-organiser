@@ -20,19 +20,19 @@ class ChristmasList extends React.Component {
   }
 
   remove = async (item) => {
-    const { items, email, groups } = this.state;
+    const { items, groups } = this.state;
     const listWithoutItem = items.filter((i) => i !== item);
-    const christmasList = await saveChristmasList(email, listWithoutItem, groups);
+    const christmasList = await saveChristmasList(getUserData(), listWithoutItem, groups);
     this.setState({ items: christmasList.items, groups: christmasList.groups });
   }
 
   add = async () => {
     const {
-      items, newItemName, email, groups,
+      items, newItemName, groups,
     } = this.state;
     items.push({ name: newItemName.trim(), dibbed: false });
 
-    const christmasList = await saveChristmasList(email, items, groups);
+    const christmasList = await saveChristmasList(getUserData(), items, groups);
     this.setState({ items: christmasList.items, groups: christmasList.groups, newItemName: '' });
   }
 
