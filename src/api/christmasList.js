@@ -11,7 +11,7 @@ export const saveChristmasList = (email, items, groups) => fetch(url, {
     items,
     groups,
   }),
-});
+}).then((response) => response.json());
 
 export const createChristmasList = (email) => fetch(url, {
   method: 'POST',
@@ -24,7 +24,7 @@ export const createChristmasList = (email) => fetch(url, {
     }],
     groups: [],
   }),
-});
+}).then((response) => response.json());
 
 export const getChristmasList = (email) => fetch(`${url}?email=${email}`).then((response) => response.json());
 
