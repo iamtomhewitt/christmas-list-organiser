@@ -1,4 +1,4 @@
-import { get, post, put } from "../util/http";
+import { get, post, put } from '../util/http';
 
 const url = 'http://localhost:8080/christmas-list';
 
@@ -6,7 +6,7 @@ export const saveChristmasList = (email, items, groups) => post(url, JSON.string
   belongsTo: email,
   items,
   groups,
-}))
+}));
 
 export const createChristmasList = (email) => post(url, JSON.stringify({
   belongsTo: email,
@@ -15,7 +15,7 @@ export const createChristmasList = (email) => post(url, JSON.stringify({
     dibbed: false,
   }],
   groups: [],
-}))
+}));
 
 export const getChristmasList = (email) => get(`${url}?email=${email}`);
 

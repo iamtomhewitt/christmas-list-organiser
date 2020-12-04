@@ -1,4 +1,4 @@
-import { get, post } from "../util/http";
+import { get, post } from '../util/http';
 
 const url = 'http://localhost:8080/account/';
 
