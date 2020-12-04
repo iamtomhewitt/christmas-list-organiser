@@ -34,7 +34,9 @@ class ChristmasList extends React.Component {
     items.push({ name: newItemName.trim(), image: newItemImageUrl, dibbed: false });
 
     const christmasList = await saveChristmasList(getUserData(), items, groups);
-    this.setState({ items: christmasList.items, groups: christmasList.groups, newItemName: '', newItemImageUrl: '' });
+    this.setState({
+      items: christmasList.items, groups: christmasList.groups, newItemName: '', newItemImageUrl: '',
+    });
   }
 
   dibItem = async (itemName) => {
