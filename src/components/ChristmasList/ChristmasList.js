@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { getAccount } from '../../api/account';
 import {
-  createChristmasList, dibChristmasListItem, getChristmasList, saveChristmasList,
+  dibChristmasListItem, getChristmasList, saveChristmasList,
 } from '../../api/christmasList';
 import { getUserData } from '../../util/localStorage';
 import { ChristmasListItem } from './ChristmasListItem';
@@ -36,12 +36,6 @@ class ChristmasList extends React.Component {
     this.setState({ items: christmasList.items, groups: christmasList.groups, newItemName: '' });
   }
 
-  createList = async () => {
-    const christmasList = await createChristmasList(this.state.email);
-    const { items } = christmasList;
-    this.setState({ items });
-  }
-
   dibItem = async (itemName) => {
     const christmasList = await dibChristmasListItem(itemName, this.state.email, getUserData().email);
     const { items } = christmasList;
@@ -64,6 +58,9 @@ class ChristmasList extends React.Component {
         <ul>
           {items.map((item, i) => <ChristmasListItem key={i} item={item} remove={this.remove} dibItem={this.dibItem} listIsForLoggedInUser={listIsForLoggedInUser} />)}
         </ul>
+
+        {items.length === 0 && <div className="no-items">Start adding to your Christmas List using the button below!</div>}
+
         {listIsForLoggedInUser && (
           <div className="new-item">
             <input value={newItemName} placeholder="new item" onChange={this.handleChange} id="newItemName" />

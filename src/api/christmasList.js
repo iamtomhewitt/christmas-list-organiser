@@ -8,15 +8,6 @@ export const saveChristmasList = (email, items, groups) => post(url, JSON.string
   groups,
 }));
 
-export const createChristmasList = (email) => post(url, JSON.stringify({
-  belongsTo: email,
-  items: [{
-    name: 'A Present',
-    dibbed: false,
-  }],
-  groups: [],
-}));
-
 export const getChristmasList = (email) => get(`${url}?email=${email}`);
 
 export const getAllChristmasLists = () => get(`${url}/all`);
