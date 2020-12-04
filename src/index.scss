@@ -1,9 +1,22 @@
 body {
   color: #333;
-  font-family: 'Roboto Slab', sans-serif;
+  font-family: "Roboto Slab", sans-serif;
   font-size: 16px;
   margin: 0;
   padding: 0;
+}
+
+div::after {
+  content: "";
+  background: url("https://istanbul.com/blog/wp-content/uploads/2020/01/753.jpg");
+  background-size: cover;
+  opacity: 0.02;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  z-index: -1;
 }
 
 h1,
@@ -12,5 +25,5 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: 'Roboto Slab', sans-serif;
+  font-family: "Roboto Slab", sans-serif;
 }
