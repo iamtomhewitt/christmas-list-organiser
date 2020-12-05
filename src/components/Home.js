@@ -10,7 +10,7 @@ export const Home = (props) => {
   return (
     <>
       <ChristmasList email={email} />
-      <div className="version">version {version}</div>
+      <p className="version">version {version}</p>
     </>
   );
 };
