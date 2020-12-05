@@ -1,11 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { clearUserData, getUserData } from '../../util/localStorage';
 import './Masthead.scss';
 
 const isActive = (label, path) => (label === path ? 'active' : 'inactive');
 
-export const Masthead = (props) => {
+const Masthead = (props) => {
   const firstName = getUserData()?.firstName || '';
   const { path, countdown } = props;
 
@@ -50,3 +51,10 @@ export const Masthead = (props) => {
     </div>
   );
 };
+
+Masthead.propTypes = {
+  path: PropTypes.string.isRequired,
+  countdown: PropTypes.string,
+};
+
+export default Masthead;
