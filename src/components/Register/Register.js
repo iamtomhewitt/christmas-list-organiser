@@ -13,6 +13,7 @@ export default class Register extends React.Component {
       lastName: '',
       errorMessage: '',
       hasRegistered: false,
+      loading: false,
     };
 
     this.register.bind(this);
@@ -29,10 +30,11 @@ export default class Register extends React.Component {
       email, password, firstName, lastName,
     } = this.state;
 
+    this.setState({ loading: true });
     const response = await createAccount(email, password, firstName, lastName);
     const errorMessage = response.message || '';
     const hasRegistered = !response.error;
-    this.setState({ errorMessage, hasRegistered });
+    this.setState({ errorMessage, hasRegistered, loading: false });
   }
 
   canLogin = () => {
@@ -45,7 +47,7 @@ export default class Register extends React.Component {
 
   render() {
     const {
-      email, password, firstName, lastName, errorMessage, hasRegistered,
+      email, password, firstName, lastName, errorMessage, hasRegistered, loading,
     } = this.state;
 
     return (
@@ -63,8 +65,9 @@ export default class Register extends React.Component {
 
         <button disabled={this.canLogin()} onClick={this.register}>Register</button>
 
-        {errorMessage
-          && <div>{errorMessage}</div>}
+        {errorMessage && <div>{errorMessage}</div>}
+
+        {loading && <div>Loading...</div>}
 
         {hasRegistered
           && (

@@ -11,6 +11,7 @@ export default class Login extends React.Component {
       email: '',
       password: '',
       errorMessage: '',
+      loading: false,
     };
 
     this.login.bind(this);
@@ -23,12 +24,13 @@ export default class Login extends React.Component {
   }
 
   login = async () => {
+    this.setState({ loading: true });
     const { email, password } = this.state;
     const { history } = this.props;
     const response = await validateAccount(email, password);
     const errorMessage = response.message || '';
 
-    this.setState({ errorMessage });
+    this.setState({ errorMessage, loading: false });
 
     if (!response.error) {
       saveUserData(response);
@@ -37,7 +39,9 @@ export default class Login extends React.Component {
   }
 
   render() {
-    const { email, password, errorMessage } = this.state;
+    const {
+      email, password, errorMessage, loading,
+    } = this.state;
 
     return (
       <>
@@ -52,6 +56,8 @@ export default class Login extends React.Component {
               <Link to="/register">
                 <div>Register</div>
               </Link>
+
+              {loading && <>Loading...</>}
 
               {errorMessage && <>{errorMessage}</>}
             </div>
