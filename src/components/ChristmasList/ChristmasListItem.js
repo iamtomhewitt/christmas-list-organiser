@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './ChristmasListItem.scss';
 
 const defaultImage = 'https://freeiconshop.com/wp-content/uploads/edd/gift-flat.png';
@@ -18,7 +19,7 @@ const ItemForLoggedInUser = ({ item, remove }) => {
   const imageToUse = isImageUrl(image) ? image : defaultImage;
   return (
     <li className="christmas-list-item">
-      {!dibbed && <button className="remove-button" onClick={() => remove(item)}>X</button>}
+      {!dibbed && <button className="remove-button" onClick={() => remove(item)} type="button">X</button>}
       <img src={imageToUse} alt="Present" />
       <div>{trim(name)}</div>
     </li>
@@ -33,7 +34,7 @@ const ItemForNonLoggedInUser = ({ item, dibItem }) => {
   const imageToUse = isImageUrl(image) ? image : defaultImage;
   return (
     <li className="christmas-list-item">
-      {!dibbed && <button className="dib-button" onClick={() => dibItem(name)}>Dib</button>}
+      {!dibbed && <button className="dib-button" onClick={() => dibItem(name)} type="button">Dib</button>}
       {dibbed && <div className="dibbed-banner">Dibbed by {firstName} {lastName}</div>}
       <img src={imageToUse} alt="Present" />
       <div>{trim(name)}</div>
@@ -41,6 +42,40 @@ const ItemForNonLoggedInUser = ({ item, dibItem }) => {
   );
 };
 
-export const ChristmasListItem = ({
+const ChristmasListItem = ({
   item, remove, dibItem, listIsForLoggedInUser,
 }) => (listIsForLoggedInUser ? <ItemForLoggedInUser item={item} remove={remove} /> : <ItemForNonLoggedInUser item={item} dibItem={dibItem} />);
+
+ChristmasListItem.propTypes = {
+  item: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    image: PropTypes.string,
+    dibbed: PropTypes.bool.isRequired,
+    dibbedBy: PropTypes.object.isRequired,
+  }),
+  remove: PropTypes.func.isRequired,
+  dibItem: PropTypes.func.isRequired,
+  listIsForLoggedInUser: PropTypes.bool.isRequired,
+};
+
+ItemForLoggedInUser.propTypes = {
+  item: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    image: PropTypes.string,
+    dibbed: PropTypes.bool.isRequired,
+    dibbedBy: PropTypes.object.isRequired,
+  }),
+  remove: PropTypes.func.isRequired,
+};
+
+ItemForNonLoggedInUser.propTypes = {
+  item: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    image: PropTypes.string,
+    dibbed: PropTypes.bool.isRequired,
+    dibbedBy: PropTypes.object.isRequired,
+  }),
+  dibItem: PropTypes.func.isRequired,
+};
+
+export default ChristmasListItem;
