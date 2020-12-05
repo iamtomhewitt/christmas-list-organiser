@@ -1,7 +1,8 @@
 import { get, post } from '../util/http';
 import URL from '../config';
 
-const url = `${URL}/account`;
+const host = process.env.BACKEND_URL || 'http://localhost:8080'
+const url = `${host}/account`;
 
 export const getAccount = (email) => get(`${url}?email=${email}`);
 
