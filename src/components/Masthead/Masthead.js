@@ -32,9 +32,12 @@ export const Masthead = (props) => {
       </ul>
 
       <div>
-        <span className="countdown">
-          <span>🎄{countdown}🎅🏼</span>
-        </span>
+        {countdown
+          && (
+            <span className="countdown">
+              🎄{countdown} 🎅🏼
+            </span>
+          )}
 
         <span className="logout">
           Not {firstName}?&nbsp;

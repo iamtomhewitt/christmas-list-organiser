@@ -1,6 +1,7 @@
 import { get, post, put } from '../util/http';
+import URL from '../config';
 
-const url = 'http://localhost:8080/group';
+const url = `${URL}/group`;
 
 export const getGroups = () => get(`${url}/all`);
 
