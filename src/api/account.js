@@ -2,6 +2,7 @@ import { get, post } from '../util/http';
 import URL from '../config';
 
 console.log('env', process.env.BACKEND_URL)
+console.log('env', process.env.REACT_APP_BACKEND_URL)
 const host = process.env.BACKEND_URL || 'http://localhost:8080'
 console.log('Host', host)
 const url = `${host}/account`;
