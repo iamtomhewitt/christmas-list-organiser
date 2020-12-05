@@ -1,6 +1,7 @@
 import { get, post, put } from '../util/http';
+import URL from '../config';
 
-const url = 'http://localhost:8080/christmas-list';
+const url = `${URL}/christmas-list`;
 
 export const saveChristmasList = (belongsTo, items, groups) => post(url, JSON.stringify({
   belongsTo,
