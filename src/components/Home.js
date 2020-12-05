@@ -5,7 +5,7 @@ import ChristmasList from './ChristmasList/ChristmasList';
 import { version } from '../../package.json';
 import './Home.scss';
 
-export const Home = (props) => {
+const Home = (props) => {
   const { location } = props;
   const { email } = location || getUserData();
 
