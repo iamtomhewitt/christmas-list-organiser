@@ -59,14 +59,14 @@ class Groups extends React.Component {
 
   renderAvailableGroup = (group) => (
     <li key={group}>
-      <button className="join-button" onClick={() => this.alterGroup(group, true)}>+</button>
+      <button className="join-button" onClick={() => this.alterGroup(group, true)} type="button">+</button>
       <div>{group}</div>
     </li>
   )
 
   renderJoinedGroup = (group) => (
     <li key={group}>
-      <button className="leave-button" onClick={() => this.alterGroup(group, false)}>x</button>
+      <button className="leave-button" onClick={() => this.alterGroup(group, false)} type="button">x</button>
       <div>{group}</div>
     </li>
   )
@@ -93,7 +93,7 @@ class Groups extends React.Component {
         </ul>
 
         <input value={newGroupName} placeholder="new group name" id="newGroupName" onChange={this.handleChange} />
-        <button className="create-button" onClick={() => this.createGroup(newGroupName)} disabled={newGroupName === ''}>Create New Group</button>
+        <button className="create-button" onClick={() => this.createGroup(newGroupName)} disabled={newGroupName === ''} type="button">Create New Group</button>
 
         {errorMessage && <div>{errorMessage}</div>}
       </div>
