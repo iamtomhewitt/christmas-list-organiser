@@ -1,11 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { getAccount } from '../../api/account';
 import {
   dibChristmasListItem, getChristmasList, saveChristmasList,
 } from '../../api/christmasList';
 import { getUserData } from '../../util/localStorage';
-import { ChristmasListItem } from './ChristmasListItem';
+import ChristmasListItem from './ChristmasListItem';
 import './ChristmasList.scss';
 
 class ChristmasList extends React.Component {
@@ -18,6 +19,21 @@ class ChristmasList extends React.Component {
       newItemImageUrl: '',
       groups: [],
     };
+  }
+
+  async componentDidMount() {
+    const { location } = this.props;
+    const { email } = location || getUserData();
+    const listIsForLoggedInUser = email === getUserData().email;
+    this.setState({ email, listIsForLoggedInUser });
+
+    const christmasList = await getChristmasList(email);
+    const { items = [], groups = [], error } = christmasList;
+    this.setState({ items, groups, error: error ? christmasList.message : '' });
+
+    const account = await getAccount(email);
+    const { firstName = '', lastName = '' } = account;
+    this.setState({ firstName, lastName });
   }
 
   remove = async (item) => {
@@ -40,7 +56,8 @@ class ChristmasList extends React.Component {
   }
 
   dibItem = async (itemName) => {
-    const christmasList = await dibChristmasListItem(itemName, this.state.email, getUserData().email);
+    const { email } = this.state;
+    const christmasList = await dibChristmasListItem(itemName, email, getUserData().email);
     const { items } = christmasList;
     this.setState({ items });
   }
@@ -68,26 +85,12 @@ class ChristmasList extends React.Component {
           <div className="new-item">
             <input value={newItemName} placeholder="new item" onChange={this.handleChange} id="newItemName" />
             <input value={newItemImageUrl} placeholder="optional - image url" onChange={this.handleChange} id="newItemImageUrl" />
-            <button onClick={() => this.add()} disabled={newItemName === ''}>Add New Item</button>
+            <button onClick={() => this.add()} disabled={newItemName === ''} type="button">Add New Item</button>
             {group && <div>Group: {group.name}</div>}
           </div>
         )}
       </>
     );
-  }
-
-  async componentDidMount() {
-    const { email } = this.props.location || getUserData();
-    const listIsForLoggedInUser = email === getUserData().email;
-    this.setState({ email, listIsForLoggedInUser });
-
-    const christmasList = await getChristmasList(email);
-    const { items = [], groups = [], error } = christmasList;
-    this.setState({ items, groups, error: error ? christmasList.message : '' });
-
-    const account = await getAccount(email);
-    const { firstName = '', lastName = '' } = account;
-    this.setState({ firstName, lastName });
   }
 
   render() {
@@ -99,8 +102,8 @@ class ChristmasList extends React.Component {
     const WithNoEmail = () => (
       <div className="christmas-list">
         <div className="no-email">
-          <h3>Woops, I've lost the email you clicked on! Please go back and try again.</h3>
-          <Link to="/search"><button>Back to Search</button></Link>
+          <h3>Woops, I have lost the email you clicked on! Please go back and try again.</h3>
+          <Link to="/search"><button type="button">Back to Search</button></Link>
         </div>
       </div>
     );
@@ -116,7 +119,7 @@ class ChristmasList extends React.Component {
       <div className="christmas-list">
         <div className="error">
           <h3>Error! {error}</h3>
-          <Link to="/search"><button>Back to Search</button></Link>
+          <Link to="/search"><button type="button">Back to Search</button></Link>
         </div>
       </div>
     );
@@ -126,5 +129,9 @@ class ChristmasList extends React.Component {
     );
   }
 }
+
+ChristmasList.propTypes = {
+  location: PropTypes.object,
+};
 
 export default ChristmasList;

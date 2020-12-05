@@ -55,7 +55,7 @@ export default class Register extends React.Component {
         <h1>Register</h1>
 
         <div className="warning">
-          WARNING! There's no security on this, so don't use a personal password!
+          WARNING! There is no security on this, so do not use a personal password!
         </div>
 
         <input value={email} placeholder="email" onChange={this.handleChange} id="email" />
@@ -63,7 +63,7 @@ export default class Register extends React.Component {
         <input value={firstName} placeholder="first name" onChange={this.handleChange} id="firstName" />
         <input value={lastName} placeholder="last name" onChange={this.handleChange} id="lastName" />
 
-        <button disabled={this.canLogin()} onClick={this.register}>Register</button>
+        <button disabled={this.canLogin()} onClick={this.register} type="submit">Register</button>
 
         {errorMessage && <div>{errorMessage}</div>}
 
