@@ -51,7 +51,7 @@ ChristmasListItem.propTypes = {
     name: PropTypes.string.isRequired,
     image: PropTypes.string,
     dibbed: PropTypes.bool.isRequired,
-    dibbedBy: PropTypes.object.isRequired,
+    dibbedBy: PropTypes.object,
   }),
   remove: PropTypes.func.isRequired,
   dibItem: PropTypes.func.isRequired,
@@ -63,7 +63,7 @@ ItemForLoggedInUser.propTypes = {
     name: PropTypes.string.isRequired,
     image: PropTypes.string,
     dibbed: PropTypes.bool.isRequired,
-    dibbedBy: PropTypes.object.isRequired,
+    dibbedBy: PropTypes.object,
   }),
   remove: PropTypes.func.isRequired,
 };
@@ -73,7 +73,7 @@ ItemForNonLoggedInUser.propTypes = {
     name: PropTypes.string.isRequired,
     image: PropTypes.string,
     dibbed: PropTypes.bool.isRequired,
-    dibbedBy: PropTypes.object.isRequired,
+    dibbedBy: PropTypes.object,
   }),
   dibItem: PropTypes.func.isRequired,
 };
