@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { getUserData } from '../util/localStorage';
+import { getLoggedInUser } from '../util/sessionStorage';
 import ChristmasList from './ChristmasList/ChristmasList';
 import { version } from '../../package.json';
 import './Home.scss';
 
 const Home = (props) => {
   const { location } = props;
-  const { email } = location || getUserData();
+  const { email } = location || getLoggedInUser();
 
   return (
     <>

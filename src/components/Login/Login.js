@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link, Redirect } from 'react-router-dom';
-import { getUserData, saveUserData } from '../../util/localStorage';
+import { getLoggedInUser, saveLoggedInUser } from '../../util/sessionStorage';
 import { validateAccount } from '../../api/account';
 import './Login.scss';
 
@@ -34,7 +34,7 @@ class Login extends React.Component {
     this.setState({ errorMessage, loading: false });
 
     if (!response.error) {
-      saveUserData(response);
+      saveLoggedInUser(response);
       history.push('/home');
     }
   }
@@ -46,7 +46,7 @@ class Login extends React.Component {
 
     return (
       <>
-        {getUserData() ? <Redirect to="/home" />
+        {getLoggedInUser() ? <Redirect to="/home" />
           : (
             <div className="login">
               <h1>Login</h1>

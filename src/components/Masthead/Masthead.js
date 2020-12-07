@@ -1,13 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { clearUserData, getUserData } from '../../util/localStorage';
+import { clearLoggedInUser, getLoggedInUser } from '../../util/sessionStorage';
 import './Masthead.scss';
 
 const isActive = (label, path) => (label === path ? 'active' : 'inactive');
 
 const Masthead = (props) => {
-  const firstName = getUserData()?.firstName || '';
+  const firstName = getLoggedInUser()?.firstName || '';
   const { path, countdown } = props;
 
   return (
@@ -43,7 +43,7 @@ const Masthead = (props) => {
         <span className="logout">
           Not {firstName}?&nbsp;
           <Link to="/">
-            <span onClick={() => clearUserData()}>Logout</span>
+            <span onClick={() => clearLoggedInUser()}>Logout</span>
           </Link>
         </span>
       </div>

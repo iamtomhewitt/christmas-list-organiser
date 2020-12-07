@@ -6,14 +6,19 @@ import Home from './components/Home';
 import Login from './components/Login/Login';
 import Register from './components/Register/Register';
 import SearchPage from './components/Search/Search';
+import { getLoggedInUser } from './util/sessionStorage';
 
-export default () => (
-  <Switch>
-    <Route path="/" exact component={Login} />
-    <Route path="/register" exact component={Register} />
-    <Route path="/home" exact component={Home} />
-    <Route path="/search" exact component={SearchPage} />
-    <Route path="/christmasList" exact component={ChristmasList} />
-    <Route path="/groups" exact component={Groups} />
-  </Switch>
-);
+export default () => {
+  const user = getLoggedInUser();
+
+  return (
+    <Switch>
+      <Route path="/" exact component={Login} />
+      <Route path="/register" exact component={Register} />
+      <Route path="/home" exact component={user ? Home : Login} />
+      <Route path="/search" exact component={user ? SearchPage : Login} />
+      <Route path="/christmasList" exact component={user ? ChristmasList : Login} />
+      <Route path="/groups" exact component={user ? Groups : Login} />
+    </Switch>
+  );
+};

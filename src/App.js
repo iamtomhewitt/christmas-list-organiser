@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import Routes from './Routes';
 import Masthead from './components/Masthead/Masthead';
-import { getUserData } from './util/localStorage';
+import { getLoggedInUser } from './util/sessionStorage';
 
 const App = () => {
   const location = useLocation();
@@ -11,7 +11,7 @@ const App = () => {
   const [countdown, setCountdown] = useState();
 
   useEffect(() => {
-    setUserData(getUserData());
+    setUserData(getLoggedInUser());
   }, [location]);
 
   useEffect(() => {

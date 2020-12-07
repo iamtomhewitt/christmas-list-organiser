@@ -3,7 +3,7 @@ import { getChristmasList } from '../../api/christmasList';
 import {
   createGroup, getGroups, joinGroup, leaveGroup,
 } from '../../api/groups';
-import { getUserData } from '../../util/localStorage';
+import { getLoggedInUser } from '../../util/sessionStorage';
 import './Groups.scss';
 
 class Groups extends React.Component {
@@ -21,7 +21,7 @@ class Groups extends React.Component {
   }
 
   async componentDidMount() {
-    const { email } = getUserData();
+    const { email } = getLoggedInUser();
     this.setState({ usersEmail: email });
 
     const groups = await getGroups();
