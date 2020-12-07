@@ -6,16 +6,10 @@ import Home from './components/Home';
 import Login from './components/Login/Login';
 import Register from './components/Register/Register';
 import SearchPage from './components/Search/Search';
-import { getUserData } from './util/localStorage';
+import { getLoggedInUser } from './util/sessionStorage';
 
 export default () => {
-  const user = getUserData();
-
-  console.log('Routes', user);
-
-  if (!user) {
-    console.log('no user');
-  }
+  const user = getLoggedInUser();
 
   return (
     <Switch>

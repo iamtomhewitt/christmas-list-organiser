@@ -5,7 +5,7 @@ import { getAccount } from '../../api/account';
 import {
   dibChristmasListItem, getChristmasList, saveChristmasList,
 } from '../../api/christmasList';
-import { getUserData } from '../../util/localStorage';
+import { getLoggedInUser } from '../../util/sessionStorage';
 import ChristmasListItem from './ChristmasListItem';
 import './ChristmasList.scss';
 
@@ -23,8 +23,8 @@ class ChristmasList extends React.Component {
 
   async componentDidMount() {
     const { location } = this.props;
-    const { email } = location || getUserData();
-    const listIsForLoggedInUser = email === getUserData().email;
+    const { email } = location || getLoggedInUser();
+    const listIsForLoggedInUser = email === getLoggedInUser().email;
     this.setState({ email, listIsForLoggedInUser });
 
     const christmasList = await getChristmasList(email);
@@ -39,7 +39,7 @@ class ChristmasList extends React.Component {
   remove = async (item) => {
     const { items, groups } = this.state;
     const listWithoutItem = items.filter((i) => i !== item);
-    const christmasList = await saveChristmasList(getUserData(), listWithoutItem, groups);
+    const christmasList = await saveChristmasList(getLoggedInUser(), listWithoutItem, groups);
     this.setState({ items: christmasList.items, groups: christmasList.groups });
   }
 
@@ -49,7 +49,7 @@ class ChristmasList extends React.Component {
     } = this.state;
     items.push({ name: newItemName.trim(), image: newItemImageUrl, dibbed: false });
 
-    const christmasList = await saveChristmasList(getUserData(), items, groups);
+    const christmasList = await saveChristmasList(getLoggedInUser(), items, groups);
     this.setState({
       items: christmasList.items, groups: christmasList.groups, newItemName: '', newItemImageUrl: '',
     });
@@ -57,7 +57,7 @@ class ChristmasList extends React.Component {
 
   dibItem = async (itemName) => {
     const { email } = this.state;
-    const christmasList = await dibChristmasListItem(itemName, email, getUserData().email);
+    const christmasList = await dibChristmasListItem(itemName, email, getLoggedInUser().email);
     const { items } = christmasList;
     this.setState({ items });
   }

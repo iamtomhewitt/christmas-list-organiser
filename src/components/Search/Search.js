@@ -1,13 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { getAllChristmasLists } from '../../api/christmasList';
-import { getUserData } from '../../util/localStorage';
+import { getLoggedInUser } from '../../util/sessionStorage';
 import './Search.scss';
 
 class SearchPage extends React.Component {
   constructor() {
     super();
-    const { email } = getUserData();
+    const { email } = getLoggedInUser();
     this.state = {
       lists: [],
       filteredLists: [],
