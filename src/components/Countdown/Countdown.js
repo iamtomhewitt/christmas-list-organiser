@@ -1,6 +1,8 @@
 import React from 'react';
 import './Countdown.scss';
 
+let intervalId;
+
 class Countdown extends React.Component {
   constructor() {
     super();
@@ -10,7 +12,7 @@ class Countdown extends React.Component {
   }
 
   componentDidMount() {
-    const intervalId = setInterval(() => {
+    intervalId = setInterval(() => {
       const christmasDay = new Date(`Dec 25, ${new Date().getFullYear()} 00:00:00`).getTime();
 
       const now = new Date().getTime();
@@ -27,12 +29,9 @@ class Countdown extends React.Component {
 
       this.setState({ countdown });
     }, 1000);
-
-    this.setState({ intervalId });
   }
 
   componentWillUnmount() {
-    const { intervalId } = this.state;
     clearInterval(intervalId);
   }
 
