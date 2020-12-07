@@ -1,3 +1,13 @@
+## 1.0.1 (07/12/2020) 
+
+
+### Issues in this release:
+
+* [#43](https://github.com/iamtomhewitt/christmas-list-organiser/issues/43) - Move countdown into its own component
+* [#24](https://github.com/iamtomhewitt/christmas-list-organiser/issues/24) - Use session storage to get logged in user data
+
+
+
 ## 1.0.0 (05/12/2020) 
 
 
