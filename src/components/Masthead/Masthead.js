@@ -2,13 +2,14 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { clearLoggedInUser, getLoggedInUser } from '../../util/sessionStorage';
+import Countdown from '../Countdown/Countdown';
 import './Masthead.scss';
 
 const isActive = (label, path) => (label === path ? 'active' : 'inactive');
 
 const Masthead = (props) => {
   const firstName = getLoggedInUser()?.firstName || '';
-  const { path, countdown } = props;
+  const { path } = props;
 
   return (
     <div className="masthead">
@@ -33,12 +34,7 @@ const Masthead = (props) => {
       </ul>
 
       <div>
-        {countdown
-          && (
-            <span className="countdown">
-              🎄{countdown} 🎅🏼
-            </span>
-          )}
+        <Countdown />
 
         <span className="logout">
           Not {firstName}?&nbsp;
@@ -54,7 +50,6 @@ const Masthead = (props) => {
 
 Masthead.propTypes = {
   path: PropTypes.string.isRequired,
-  countdown: PropTypes.string,
 };
 
 export default Masthead;
