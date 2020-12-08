@@ -17,6 +17,7 @@ class ChristmasList extends React.Component {
       email: '',
       newItemName: '',
       newItemImageUrl: '',
+      newItemUrl: '',
       groups: [],
     };
   }
@@ -45,13 +46,15 @@ class ChristmasList extends React.Component {
 
   add = async () => {
     const {
-      items, groups, newItemName, newItemImageUrl,
+      items, groups, newItemName, newItemImageUrl, newItemUrl,
     } = this.state;
-    items.push({ name: newItemName.trim(), image: newItemImageUrl, dibbed: false });
+    items.push({
+      name: newItemName.trim(), url: newItemUrl, image: newItemImageUrl, dibbed: false,
+    });
 
     const christmasList = await saveChristmasList(getLoggedInUser(), items, groups);
     this.setState({
-      items: christmasList.items, groups: christmasList.groups, newItemName: '', newItemImageUrl: '',
+      items: christmasList.items, groups: christmasList.groups, newItemName: '', newItemImageUrl: '', newItemUrl: '',
     });
   }
 
@@ -70,7 +73,7 @@ class ChristmasList extends React.Component {
 
   renderList = () => {
     const {
-      items, newItemName, newItemImageUrl, listIsForLoggedInUser, group,
+      items, newItemName, newItemImageUrl, newItemUrl, listIsForLoggedInUser, group,
     } = this.state;
 
     return (
@@ -84,7 +87,8 @@ class ChristmasList extends React.Component {
         {listIsForLoggedInUser && (
           <div className="new-item">
             <input value={newItemName} placeholder="new item" onChange={this.handleChange} id="newItemName" />
-            <input value={newItemImageUrl} placeholder="optional - image url" onChange={this.handleChange} id="newItemImageUrl" />
+            <input value={newItemUrl} placeholder="optional - website link" onChange={this.handleChange} id="newItemUrl" />
+            <input value={newItemImageUrl} placeholder="optional - image link" onChange={this.handleChange} id="newItemImageUrl" />
             <button onClick={() => this.add()} disabled={newItemName === ''} type="button">Add New Item</button>
             {group && <div>Group: {group.name}</div>}
           </div>

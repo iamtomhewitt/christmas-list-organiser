@@ -15,20 +15,22 @@ const isImageUrl = (url) => {
 };
 
 const ItemForLoggedInUser = ({ item, remove }) => {
-  const { name, image, dibbed } = item;
+  const {
+    name, image, dibbed, url,
+  } = item;
   const imageToUse = isImageUrl(image) ? image : defaultImage;
   return (
     <li className="christmas-list-item">
       {!dibbed && <button className="remove-button" onClick={() => remove(item)} type="button">X</button>}
       <img src={imageToUse} alt="Present" />
-      <div>{trim(name)}</div>
+      <div><a target="_blank" rel="noopener noreferrer" href={url}>{trim(name)}</a></div>
     </li>
   );
 };
 
 const ItemForNonLoggedInUser = ({ item, dibItem }) => {
   const {
-    name, dibbed, dibbedBy, image,
+    name, dibbed, dibbedBy, image, url,
   } = item;
   const { firstName = '', lastName = '' } = dibbedBy || {};
   const imageToUse = isImageUrl(image) ? image : defaultImage;
@@ -37,7 +39,7 @@ const ItemForNonLoggedInUser = ({ item, dibItem }) => {
       {!dibbed && <button className="dib-button" onClick={() => dibItem(name)} type="button">Dib</button>}
       {dibbed && <div className="dibbed-banner">Dibbed by {firstName} {lastName}</div>}
       <img src={imageToUse} alt="Present" />
-      <div>{trim(name)}</div>
+      <div><a href={url}>{trim(name)}</a></div>
     </li>
   );
 };
@@ -50,6 +52,7 @@ ChristmasListItem.propTypes = {
   item: PropTypes.shape({
     name: PropTypes.string.isRequired,
     image: PropTypes.string,
+    url: PropTypes.string,
     dibbed: PropTypes.bool.isRequired,
     dibbedBy: PropTypes.object,
   }),
@@ -62,6 +65,7 @@ ItemForLoggedInUser.propTypes = {
   item: PropTypes.shape({
     name: PropTypes.string.isRequired,
     image: PropTypes.string,
+    url: PropTypes.string,
     dibbed: PropTypes.bool.isRequired,
     dibbedBy: PropTypes.object,
   }),
@@ -72,6 +76,7 @@ ItemForNonLoggedInUser.propTypes = {
   item: PropTypes.shape({
     name: PropTypes.string.isRequired,
     image: PropTypes.string,
+    url: PropTypes.string,
     dibbed: PropTypes.bool.isRequired,
     dibbedBy: PropTypes.object,
   }),
