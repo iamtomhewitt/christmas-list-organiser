@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { createAccount } from '../../api/account';
+import { generateClass } from '../../util';
 import './Register.scss';
 
 export default class Register extends React.Component {
@@ -51,7 +52,7 @@ export default class Register extends React.Component {
     } = this.state;
 
     return (
-      <div className="register">
+      <div className={generateClass('register')}>
         <h1>Register</h1>
 
         <div className="warning">
@@ -72,8 +73,7 @@ export default class Register extends React.Component {
         {hasRegistered
           && (
             <div>
-              Registered successfully!<br />
-              <Link to="/">Return to Login</Link>
+              Registered successfully! Click <Link to="/">here</Link> to login.
             </div>
           )}
       </div>
