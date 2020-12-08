@@ -39,7 +39,7 @@ class Countdown extends React.Component {
     const { countdown } = this.state;
     return (
       <span className="countdown">
-        🎄{countdown} 🎅🏼
+        <span role="img" aria-label="christmas">🎄</span>{countdown} <span role="img" aria-label="christmas">🎅🏼</span>
       </span>
     );
   }

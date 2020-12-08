@@ -23,7 +23,7 @@ const ItemForLoggedInUser = ({ item, remove }) => {
     <li className="christmas-list-item">
       {!dibbed && <button className="remove-button" onClick={() => remove(item)} type="button">X</button>}
       <img src={imageToUse} alt="Present" />
-      <div><a target='_blank' href={url}>{trim(name)}</a></div>
+      <div><a target="_blank" rel="noopener noreferrer" href={url}>{trim(name)}</a></div>
     </li>
   );
 };

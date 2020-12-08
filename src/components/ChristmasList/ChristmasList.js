@@ -87,8 +87,8 @@ class ChristmasList extends React.Component {
         {listIsForLoggedInUser && (
           <div className="new-item">
             <input value={newItemName} placeholder="new item" onChange={this.handleChange} id="newItemName" />
-            <input value={newItemUrl} placeholder="optional - item url" onChange={this.handleChange} id="newItemUrl" />
-            <input value={newItemImageUrl} placeholder="optional - image url" onChange={this.handleChange} id="newItemImageUrl" />
+            <input value={newItemUrl} placeholder="optional - website link" onChange={this.handleChange} id="newItemUrl" />
+            <input value={newItemImageUrl} placeholder="optional - image link" onChange={this.handleChange} id="newItemImageUrl" />
             <button onClick={() => this.add()} disabled={newItemName === ''} type="button">Add New Item</button>
             {group && <div>Group: {group.name}</div>}
           </div>
