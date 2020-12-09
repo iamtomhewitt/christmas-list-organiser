@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link, Redirect } from 'react-router-dom';
 import { getLoggedInUser, saveLoggedInUser } from '../../util/sessionStorage';
 import { validateAccount } from '../../api/account';
+import { generateClass } from '../../util';
 import './Login.scss';
 
 class Login extends React.Component {
@@ -48,14 +49,14 @@ class Login extends React.Component {
       <>
         {getLoggedInUser() ? <Redirect to="/home" />
           : (
-            <div className="login">
+            <div className={generateClass('login')}>
               <h1>Login</h1>
               <input value={email} placeholder="email" onChange={this.handleChange} id="email" type="email" />
               <input value={password} placeholder="password" onChange={this.handleChange} id="password" type="password" />
               <button disabled={email === '' || password === ''} onClick={this.login} type="submit">Login</button>
 
               <Link to="/register">
-                <div>Register</div>
+                <div><button type="button">Register</button></div>
               </Link>
 
               {loading && <>Loading...</>}

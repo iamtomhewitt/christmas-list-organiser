@@ -1,4 +1,5 @@
-.search {
+.search,
+%search {
   font-weight: lighter;
   margin-top: 10px;
   text-align: center;
@@ -32,8 +33,20 @@
   }
 
   a {
-    color:rgb(85, 84, 84);
-    text-decoration: none;
+    color: #1fa3ec;
+  }
+
+  .person {
+    a {
+      color: #e11515;
+      text-decoration: none;
+    }
+  }
+
+  .person:nth-child(odd) {
+    a {
+      color: green;
+    }
   }
 
   .no-lists {
@@ -47,5 +60,28 @@
     span {
       font-weight: bold;
     }
+  }
+}
+
+.search-mobile {
+  @extend %search;
+
+  h1 {
+    font-size: 28px;
+  }
+
+  input {
+    font-size: 24px;
+    margin: 30 auto 0;
+    width: 80%;
+  }
+
+  li {
+    font-size: 28px;
+    margin: 10px 0;
+  }
+
+  .no-lists {
+    font-size: 22px;
   }
 }

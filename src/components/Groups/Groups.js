@@ -4,6 +4,7 @@ import {
   createGroup, getGroups, joinGroup, leaveGroup,
 } from '../../api/groups';
 import { getLoggedInUser } from '../../util/sessionStorage';
+import { generateClass } from '../../util';
 import './Groups.scss';
 
 class Groups extends React.Component {
@@ -80,17 +81,27 @@ class Groups extends React.Component {
     const availableGroups = groups.filter((g) => !this.isJoined(g));
 
     return (
-      <div className="groups">
+      <div className={generateClass('groups')}>
         <h1>Groups</h1>
-        <h3>Available Groups</h3>
-        <ul>
-          {availableGroups.map((g) => this.renderAvailableGroup(g))}
-        </ul>
+        {availableGroups.length > 0
+          && (
+            <>
+              <h3>Available Groups</h3>
+              <ul>
+                {availableGroups.map((g) => this.renderAvailableGroup(g))}
+              </ul>
+            </>
+          )}
 
-        <h3>Your Groups</h3>
-        <ul>
-          {joinedGroups.map((g) => this.renderJoinedGroup(g))}
-        </ul>
+        {joinedGroups.length > 0
+          && (
+            <>
+              <h3>Your Groups</h3>
+              <ul>
+                {joinedGroups.map((g) => this.renderJoinedGroup(g))}
+              </ul>
+            </>
+          )}
 
         <input value={newGroupName} placeholder="new group name" id="newGroupName" onChange={this.handleChange} />
         <button className="create-button" onClick={() => this.createGroup(newGroupName)} disabled={newGroupName === ''} type="button">Create New Group</button>

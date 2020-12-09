@@ -1,3 +1,14 @@
+## 1.1.0 (09/12/2020) 
+
+
+### Issues in this release:
+
+* [#47](https://github.com/iamtomhewitt/christmas-list-organiser/issues/47) - Add a page not found
+* [#41](https://github.com/iamtomhewitt/christmas-list-organiser/issues/41) - Make mobile friendly
+* [#34](https://github.com/iamtomhewitt/christmas-list-organiser/issues/34) - Make item name a hyperlink
+
+
+
 ## 1.0.1 (07/12/2020) 
 
 

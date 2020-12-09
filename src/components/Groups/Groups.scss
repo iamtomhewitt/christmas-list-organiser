@@ -1,4 +1,5 @@
-.groups {
+.groups,
+%groups {
   font-weight: lighter;
   text-align: center;
 
@@ -78,5 +79,33 @@
     &:disabled {
       color: rgb(206, 206, 206);
     }
+  }
+}
+
+.groups-mobile {
+  @extend .groups;
+
+  h1 {
+    font-size: 40px;
+  }
+
+  h3 {
+    font-size: 26px;
+  }
+
+  li {
+    margin-left: -50px;
+  }
+
+  input {
+    font-size: 20px;
+    margin: 30 auto 0;
+    width: 80%;
+  }
+
+  .create-button {
+    font-size: 24px;
+    height: 50px;
+    width: 80%;
   }
 }
