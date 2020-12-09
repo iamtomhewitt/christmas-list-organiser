@@ -1,4 +1,5 @@
-.christmas-list {
+.christmas-list,
+%christmas-list {
   font-weight: lighter;
   margin-top: 10px;
 
@@ -29,7 +30,8 @@
     }
   }
 
-  .new-item {
+  .new-item,
+  %new-item {
     text-align: center;
 
     input {
@@ -87,5 +89,50 @@
 
   &:disabled {
     color: rgb(206, 206, 206);
+  }
+}
+
+.christmas-list-mobile {
+  @extend %christmas-list;
+
+  h1 {
+    font-size: 40px;
+    margin-bottom: 20px;
+  }
+
+  .new-item-mobile {
+    @extend %new-item;
+
+    input {
+      font-size: 24px;
+      margin: 30 auto 0;
+      width: 80%;
+    }
+
+    input::placeholder {
+      color: rgba(109, 109, 109, 0.616);
+    }
+
+    button {
+      font-size: 20px;
+      height: 50px;
+      width: 80%;
+    }
+  }
+
+  .error {
+    button {
+      font-size: 20px;
+      height: 50px;
+      width: 80%;
+    }
+  }
+  
+  .no-email {
+    button {
+      font-size: 20px;
+      height: 50px;
+      width: 80%;
+    }
   }
 }

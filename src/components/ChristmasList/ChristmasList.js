@@ -7,6 +7,7 @@ import {
 } from '../../api/christmasList';
 import { getLoggedInUser } from '../../util/sessionStorage';
 import ChristmasListItem from './ChristmasListItem';
+import { generateClass } from '../../util';
 import './ChristmasList.scss';
 
 class ChristmasList extends React.Component {
@@ -85,7 +86,7 @@ class ChristmasList extends React.Component {
         {items.length === 0 && <div className="no-items">Start adding to your Christmas List using the button below!</div>}
 
         {listIsForLoggedInUser && (
-          <div className="new-item">
+          <div className={generateClass('new-item')}>
             <input value={newItemName} placeholder="new item" onChange={this.handleChange} id="newItemName" />
             <input value={newItemUrl} placeholder="optional - website link" onChange={this.handleChange} id="newItemUrl" />
             <input value={newItemImageUrl} placeholder="optional - image link" onChange={this.handleChange} id="newItemImageUrl" />
@@ -104,7 +105,7 @@ class ChristmasList extends React.Component {
     const title = listIsForLoggedInUser ? 'Your Christmas List' : `Christmas List for ${firstName} ${lastName}`;
 
     const WithNoEmail = () => (
-      <div className="christmas-list">
+      <div className={generateClass('christmas-list')}>
         <div className="no-email">
           <h3>Woops, I have lost the email you clicked on! Please go back and try again.</h3>
           <Link to="/search"><button type="button">Back to Search</button></Link>
@@ -113,14 +114,14 @@ class ChristmasList extends React.Component {
     );
 
     const WithEmail = (
-      <div className="christmas-list">
+      <div className={generateClass('christmas-list')}>
         <h1>{title}</h1>
         {this.renderList()}
       </div>
     );
 
     const Error = () => (
-      <div className="christmas-list">
+      <div className={generateClass('christmas-list')}>
         <div className="error">
           <h3>Error! {error}</h3>
           <Link to="/search"><button type="button">Back to Search</button></Link>
