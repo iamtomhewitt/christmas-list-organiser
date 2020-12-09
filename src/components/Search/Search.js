@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { getAllChristmasLists } from '../../api/christmasList';
 import { getLoggedInUser } from '../../util/sessionStorage';
+import { generateClass } from '../../util';
 import './Search.scss';
 
 class SearchPage extends React.Component {
@@ -52,7 +53,7 @@ class SearchPage extends React.Component {
   }
 
   renderPerson = (list) => (
-    <li key={list.belongsTo.email}>
+    <li key={list.belongsTo.email} className="person">
       <Link to={{ pathname: '/christmasList', email: list.belongsTo.email }}>
         {list.belongsTo.email}
       </Link>
@@ -63,7 +64,7 @@ class SearchPage extends React.Component {
     const { filteredLists, searchCriteria, listForUser } = this.state;
 
     return (
-      <div className="search">
+      <div className={generateClass('search')}>
         <h1>Search for a Christmas List</h1>
         <input value={searchCriteria} placeholder="their name or email" onChange={this.onChange} id="searchCriteria" />
         <ul>
@@ -75,7 +76,7 @@ class SearchPage extends React.Component {
         <div className="group-info">
           Can&apos;t see someones list? They might be in a group you are not a part of.
           Join a group <Link to="/groups">here</Link>.
-          <br /><span>You are in these groups:</span>
+          <p /><span>You are in these groups:</span>
           {listForUser
             && (
               <ul>
