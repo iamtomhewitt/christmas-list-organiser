@@ -14,16 +14,24 @@ const isImageUrl = (url) => {
   return url.match(/\.(jpeg|jpg|gif|png)$/) != null;
 };
 
+const hasUrl = (url) => {
+  return url && url !== "";
+}
+
 const ItemForLoggedInUser = ({ item, remove }) => {
   const {
-    name, image, dibbed, url,
+    name, image, dibbed, url
   } = item;
   const imageToUse = isImageUrl(image) ? image : defaultImage;
   return (
     <li className="christmas-list-item">
       {!dibbed && <button className="remove-button" onClick={() => remove(item)} type="button">X</button>}
       <img src={imageToUse} alt="Present" />
-      <div><a target="_blank" rel="noopener noreferrer" href={url}>{trim(name)}</a></div>
+      {hasUrl(url) ?
+        <div><a target="_blank" rel="noopener noreferrer" href={url}>{trim(name)}</a></div>
+        :
+        <div>{trim(name)}</div>
+      }
     </li>
   );
 };
@@ -39,7 +47,11 @@ const ItemForNonLoggedInUser = ({ item, dibItem }) => {
       {!dibbed && <button className="dib-button" onClick={() => dibItem(name)} type="button">Dib</button>}
       {dibbed && <div className="dibbed-banner">Dibbed by {firstName} {lastName}</div>}
       <img src={imageToUse} alt="Present" />
-      <div><a href={url}>{trim(name)}</a></div>
+      {hasUrl(url) ?
+        <div><a target="_blank" rel="noopener noreferrer" href={url}>{trim(name)}</a></div>
+        :
+        <div>{trim(name)}</div>
+      }
     </li>
   );
 };
