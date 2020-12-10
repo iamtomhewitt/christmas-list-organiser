@@ -1,3 +1,12 @@
+## 1.1.1 (10/12/2020) 
+
+
+### Issues in this release:
+
+* [#51](https://github.com/iamtomhewitt/christmas-list-organiser/issues/51) - Url link is being rendered for item even if link doesn't exist
+
+
+
 ## 1.1.0 (09/12/2020) 
 
 
